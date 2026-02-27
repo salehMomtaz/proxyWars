@@ -1,3 +1,4 @@
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -130,3 +131,4 @@ spec:
     storageClassName: csi-cinder-sc-delete-az
     volumeMode: Filesystem
     volumeName: pvc-x
+```
