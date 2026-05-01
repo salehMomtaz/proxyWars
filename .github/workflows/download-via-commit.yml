@@ -5,6 +5,7 @@ on:
       - "**"
 jobs:
   save-file:
+    if: contains(github.event.head_commit.message, 'download:') || contains(github.event.head_commit.message, 'download-zip:')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -29,8 +30,8 @@ jobs:
             MODE="normal"
             URL_LINE=$(echo "$MSG" | grep -oP 'download:\s*\K.*')
           else
-            echo "❌ No download command found in commit message"
-            exit 1
+            echo "ℹ️ No download command found in commit message"
+            exit 0
           fi
 
           echo "Mode: $MODE"
