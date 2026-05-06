@@ -4,4 +4,4 @@
 
 We are now facing of the worst internet shutdowns in the history of digital world. I think even the phrase "one of the" is not correct here. We are facing the worst internet shutdown in the history of the digital world.
 
-Silence of europe will be remembered for ever. They will pay for this.
+Silence of europe will be remembered for ever. They will pay for this. Leftism already ruined them from within.
