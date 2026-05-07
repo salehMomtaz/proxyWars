@@ -9,3 +9,5 @@ Silence of europe will be remembered for ever. They will pay for this. Leftism a
 May god help us.
 
 Deus Vult
+
+Sapere aude
