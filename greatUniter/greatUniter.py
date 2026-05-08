@@ -1,1 +1,1 @@
-not yet
+print("not yet")
