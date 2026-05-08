@@ -1,7 +1,7 @@
+name: Download from Commit
+
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
-name: Download from Commit
 
 on:
   push:
@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install tools
         run: |
@@ -31,7 +33,7 @@ jobs:
 
       - name: Parse and download
         run: |
-          set -e
+          set -euo pipefail
 
           BODY="${{ steps.commit.outputs.body }}"
 
@@ -64,10 +66,6 @@ jobs:
 
             block_path="$(sanitize_path "$block_path")"
 
-            if [ -z "$block_path" ]; then
-              block_path=""
-            fi
-
             dest="downloads/$block_path"
             mkdir -p "$dest"
 
@@ -77,15 +75,29 @@ jobs:
 
               echo "Downloading: $url"
 
-              aria2c -d tmp_downloads -o "$name" "$url" || {
-                echo "Failed: $url"
-                continue
-              }
+              aria2c \
+                --follow-torrent=false \
+                --max-redirect=5 \
+                --auto-file-renaming=false \
+                --allow-overwrite=true \
+                --file-allocation=none \
+                -d tmp_downloads \
+                -o "$name" \
+                "$url" || {
+                  echo "Failed: $url"
+                  continue
+                }
 
               src="tmp_downloads/$name"
 
+              if [ ! -f "$src" ]; then
+                echo "File not found after download"
+                continue
+              fi
+
               base="$name"
               counter=1
+
               while [ -e "$dest/$base" ]; do
                 base="${name%.*}_$counter.${name##*.}"
                 counter=$((counter+1))
@@ -164,10 +176,19 @@ jobs:
 
       - name: Commit files
         run: |
+          set -e
+
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          files=$(git ls-files -o --exclude-standard downloads)
+          git add downloads/
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          files=$(git diff --cached --name-only)
 
           count=0
           batch=()
@@ -177,17 +198,19 @@ jobs:
             count=$((count+1))
 
             if [ "$count" -eq 5 ]; then
+              git reset
               git add "${batch[@]}"
               git commit -m "Add downloaded files batch"
-              git push
               batch=()
               count=0
             fi
           done
 
           if [ "${#batch[@]}" -gt 0 ]; then
+            git reset
             git add "${batch[@]}"
             git commit -m "Add downloaded files batch"
-            git push
           fi
-          
+
+          git pull --rebase origin main || true
+          git push origin main
