@@ -62,7 +62,6 @@ jobs:
             mkdir -p "$dest"
 
             aria2c \
-              --max-redirect=5 \
               --auto-file-renaming=false \
               --allow-overwrite=true \
               --file-allocation=none \
@@ -148,6 +147,10 @@ jobs:
                   url_part="$line"
                   name_part="$(basename "$url_part")"
                 fi
+
+                
+                url_part="$(echo "$url_part" | xargs)"
+                name_part="$(echo "$name_part" | xargs)"
 
                 name_part="$(sanitize_filename "$name_part")"
 
