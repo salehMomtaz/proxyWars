@@ -9,6 +9,9 @@ jobs:
   download:
     if: contains(github.event.head_commit.message, 'download:')
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
 
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
