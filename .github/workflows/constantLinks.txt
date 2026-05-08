@@ -1,0 +1,2 @@
+https://telegram.org/dl/desktop/win64
+https://telegram.org/dl/android/apk
