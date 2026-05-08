@@ -81,7 +81,7 @@ jobs:
 
             block_path="$1"
 
-            if [ "${#urls[@]:-0}" -eq 0 ]; then
+            if [ "${#urls[@]}" -eq 0 ]; then
               return
             fi
 
