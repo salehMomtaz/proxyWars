@@ -1,7 +1,4 @@
-name: Download from Commit
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+name: Download files from commit
 
 on:
   push:
@@ -9,56 +6,34 @@ on:
       - main
 
 jobs:
-  downloader:
+  download:
     if: contains(github.event.head_commit.message, 'download:')
     runs-on: ubuntu-latest
 
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v5
+
+      - uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
-      - name: Check for download command
-        id: check
-        run: |
-          BODY="$(git log -1 --pretty=%B)"
-
-          if [[ "$BODY" != *"download:"* ]]; then
-            echo "skip=true" >> $GITHUB_OUTPUT
-            echo "No download command found."
-          else
-            echo "skip=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Install tools
-        if: steps.check.outputs.skip != 'true'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y aria2 zip
-
-      - name: Read commit body
-        if: steps.check.outputs.skip != 'true'
-        id: commit
-        run: |
-          BODY="$(git log -1 --pretty=%B)"
-          echo "body<<EOF" >> $GITHUB_OUTPUT
-          echo "$BODY" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Install aria2
+        run: sudo apt-get update && sudo apt-get install -y aria2 zip
 
       - name: Parse and download
-        if: steps.check.outputs.skip != 'true'
         run: |
           set -euo pipefail
 
-          BODY="${{ steps.commit.outputs.body }}"
+          BODY="${{ github.event.head_commit.message }}"
 
-          mkdir -p tmp_downloads
           mkdir -p downloads
 
           url_count=0
-          declare -a urls
-          declare -a names
+          max_parallel=4
+
+          declare -a pids=()
 
           sanitize_filename() {
             echo "$1" | sed 's/[\\:*?"<>|]/-/g'
@@ -66,66 +41,61 @@ jobs:
 
           sanitize_path() {
             p="$1"
-            p="$(echo "$p" | sed 's#\.\.##g')"
-            p="$(echo "$p" | sed 's#//*#/#g')"
-            p="$(echo "$p" | sed 's#^/*##')"
+            p="${p//../}"
+            p="${p#\/}"
             echo "$p"
+          }
+
+          wait_jobs() {
+            for pid in "${pids[@]:-}"; do
+              wait "$pid" || true
+            done
+            pids=()
+          }
+
+          download_file() {
+
+            url="$1"
+            name="$2"
+            dest="$3"
+
+            mkdir -p "$dest"
+
+            aria2c \
+              --max-redirect=5 \
+              --auto-file-renaming=false \
+              --allow-overwrite=true \
+              --file-allocation=none \
+              -d "$dest" \
+              -o "$name" \
+              "$url" &
+
+            pids+=($!)
+
+            if [ "${#pids[@]}" -ge "$max_parallel" ]; then
+              wait_jobs
+            fi
           }
 
           process_block() {
 
             block_path="$1"
 
-            if [ "${#urls[@]}" -eq 0 ]; then
+            if [ "${#urls[@]:-0}" -eq 0 ]; then
               return
             fi
 
             block_path="$(sanitize_path "$block_path")"
-
             dest="downloads/$block_path"
-            mkdir -p "$dest"
 
             for i in "${!urls[@]}"; do
 
               url="${urls[$i]}"
               name="${names[$i]}"
 
-              echo "Downloading $url"
+              echo "Queue download: $url"
 
-              aria2c \
-                --max-redirect=5 \
-                --auto-file-renaming=false \
-                --allow-overwrite=true \
-                --file-allocation=none \
-                -d tmp_downloads \
-                -o "$name" \
-                "$url" || {
-                  echo "Download failed: $url"
-                  continue
-                }
-
-              src="tmp_downloads/$name"
-
-              if [ ! -f "$src" ]; then
-                continue
-              fi
-
-              base="$name"
-              counter=1
-
-              while [ -e "$dest/$base" ]; do
-                base="${name%.*}_$counter.${name##*.}"
-                counter=$((counter+1))
-              done
-
-              size=$(stat -c%s "$src")
-
-              if [ "$size" -gt $((90*1024*1024)) ]; then
-                echo "Splitting large file"
-                zip -s 90m "$dest/$base.zip" "$src"
-              else
-                mv "$src" "$dest/$base"
-              fi
+              download_file "$url" "$name" "$dest"
 
             done
 
@@ -133,11 +103,14 @@ jobs:
             names=()
           }
 
+          declare -a urls=()
+          declare -a names=()
+
           in_block=false
 
           while IFS= read -r line; do
 
-            line="$(echo "$line" | tr -d '\r')"
+            line="${line//$'\r'/}"
             line="$(echo "$line" | sed 's/^[ \t]*//;s/[ \t]*$//')"
 
             [ -z "$line" ] && continue
@@ -164,14 +137,15 @@ jobs:
                 fi
 
                 if [ "$url_count" -ge 100 ]; then
-                  echo "Reached download limit"
+                  echo "Download limit reached"
                   break
                 fi
 
-                url_part="$(echo "$line" | cut -d '|' -f1 | xargs)"
-                name_part="$(echo "$line" | cut -s -d '|' -f2 | xargs)"
-
-                if [ -z "$name_part" ]; then
+                if [[ "$line" == *"|"* ]]; then
+                  url_part="${line%%|*}"
+                  name_part="${line##*|}"
+                else
+                  url_part="$line"
                   name_part="$(basename "$url_part")"
                 fi
 
@@ -189,48 +163,24 @@ jobs:
 
           process_block ""
 
-          rm -rf tmp_downloads
+          wait_jobs
 
       - name: Commit files
-        if: steps.check.outputs.skip != 'true'
         run: |
           set -e
 
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          git add downloads/
+          git add downloads
 
           if git diff --cached --quiet; then
-            echo "No changes to commit."
+            echo "No files to commit"
             exit 0
           fi
 
-          files=$(git diff --cached --name-only)
+          git commit -m "Add downloaded files"
 
-          count=0
-          batch=()
+          git pull --rebase origin main
 
-          for f in $files; do
-
-            batch+=("$f")
-            count=$((count+1))
-
-            if [ "$count" -eq 5 ]; then
-              git reset
-              git add "${batch[@]}"
-              git commit -m "Add downloaded files batch"
-              batch=()
-              count=0
-            fi
-
-          done
-
-          if [ "${#batch[@]}" -gt 0 ]; then
-            git reset
-            git add "${batch[@]}"
-            git commit -m "Add downloaded files batch"
-          fi
-
-          git pull --rebase origin main || true
-          git push origin main
+          git push
