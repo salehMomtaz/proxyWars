@@ -11,4 +11,5 @@ path: test/
 
 https://telegram.org/dl/desktop/win64
 https://telegram.org/dl/android/apk
+https://github.com/telegramdesktop/tdesktop/releases/download/v6.8.0/tsetup-x64.6.8.0.exe
 
