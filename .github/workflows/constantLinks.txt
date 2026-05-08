@@ -1,3 +1,13 @@
+# Test workflow
+
+download:
+
+https://speed.hetzner.de/100MB.bin | test.bin
+
+path: test/
+
 # Telegram clients
+
 https://telegram.org/dl/desktop/win64
 https://telegram.org/dl/android/apk
+
