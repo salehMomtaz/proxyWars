@@ -7,6 +7,7 @@ https://speed.hetzner.de/100MB.bin | test.bin
 path: test/
 
 # Telegram clients for windows and android
+# so much for mew version
 
 https://telegram.org/dl/desktop/win64
 https://telegram.org/dl/android/apk
