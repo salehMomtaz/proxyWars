@@ -19,3 +19,4 @@ https://github.com/telegramdesktop/tdesktop/releases/download/v6.8.1/tsetup-x64.
 
 # other random links
 https://ne6-00ce353197c4.herokuapp.com/stream/2161287?hash=0cd0e6&d=true
+https://ne6-00ce353197c4.herokuapp.com/stream/2161933?hash=65d03e&d=true
