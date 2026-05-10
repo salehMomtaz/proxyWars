@@ -15,3 +15,7 @@ https://telegram.org/dl/android/apk
 # tgelegramDesktop releases
 https://github.com/telegramdesktop/tdesktop/releases/download/v6.8.0/tsetup-x64.6.8.0.exe
 https://github.com/telegramdesktop/tdesktop/releases/download/v6.8.1/tsetup-x64.6.8.1.exe
+
+
+# other random links
+https://ne6-00ce353197c4.herokuapp.com/stream/2161287?hash=0cd0e6&d=true
