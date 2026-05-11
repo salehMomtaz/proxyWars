@@ -1,0 +1,27 @@
+=== Parsing commit message ===
+Update constantLinks.txt
+
+download:
+https://www.youtube.com/watch?v=76L7dpY4OPo | tanzolemareh20260411.mp4
+
+path: videos/tanzolemareh/
+==============================
+
+=== Processing block ===
+URL: https://www.youtube.com/watch?v=76L7dpY4OPo
+Filename: tanzolemareh20260411.mp4
+Path: videos/tanzolemareh/
+Downloading with yt-dlp + Deno...
+[youtube] Extracting URL: https://www.youtube.com/watch?v=76L7dpY4OPo
+[youtube] 76L7dpY4OPo: Downloading webpage
+[youtube] 76L7dpY4OPo: Downloading android vr player API JSON
+WARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing
+ERROR: [youtube] 76L7dpY4OPo: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies
+FAIL: YouTube download failed: https://www.youtube.com/watch?v=76L7dpY4OPo
+=======================
+
+=== Download summary ===
+Requested: 1
+Succeeded: 0
+Failed: 1
+Log file: downloads/logs/20260511181635.txt
