@@ -1,5 +1,4 @@
 name: Unified Download Workflow
-
 on:
   push:
     branches:
@@ -25,12 +24,24 @@ jobs:
           sudo apt-get install -y aria2 curl wget zip jq ffmpeg
 
           # Install yt-dlp nightly
-          sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+          sudo curl -L -o /usr/local/bin/yt-dlp "https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest/download/yt-dlp_linux"
           sudo chmod a+rx /usr/local/bin/yt-dlp
 
           # Install Deno for yt-dlp JavaScript runtime (bypasses YouTube bot detection)
           curl -fsSL https://deno.land/x/install/install.sh | sh -s v2.4.5
           echo "$HOME/.deno/bin" >> "$GITHUB_PATH"
+
+      - name: Setup YouTube cookies
+        env:
+          YT_COOKIES: ${{ secrets.YOUTUBE_COOKIES }}
+        run: |
+          if [[ -n "$YT_COOKIES" ]]; then
+            mkdir -p ~/.cache/yt-dlp/youtube
+            printf '%s\n' "$YT_COOKIES" > ~/.cache/yt-dlp/youtube/cookies.txt
+            echo "Cookies installed ($(wc -l < ~/.cache/yt-dlp/youtube/cookies.txt) lines)"
+          else
+            echo "No YOUTUBE_COOKIES secret set — YouTube may be blocked by bot detection"
+          fi
 
       - name: Parse commit message and download files
         run: |
@@ -64,7 +75,8 @@ jobs:
           sanitize_filename() {
             local name="$1"
             name=$(basename "$name")
-            name=$(printf '%s' "$name" | sed 's/[^a-zA-Z0-9._-]/_/g' | sed 's/__*/_/g' | sed 's/^_//;s/_$//')
+            # Replace anything that isn't alphanumeric, dot, underscore, or hyphen
+            name=$(printf '%s' "$name" | sed 's/[^a-zA-Z0-9._-]/_/g; s/__*/_/g; s/^_//;s/_$//')
             name=$(printf '%s' "$name" | tr ' ' '_')
             [[ -n "$name" ]] && printf '%s\n' "$name" || printf 'download_%s.file\n' "$(date +%s)"
           }
@@ -140,39 +152,31 @@ jobs:
             local output="$2"
 
             echo "Trying telegramdownloader.net API..."
-              local response
-              response=$(curl -s -m 30 -X POST \
-                -H "User-Agent: Mozilla/5.0" \
-                -d "telegram_link=$url" \
-                https://telegramdownloader.net/proxy.php 2>/dev/null)
+            local response
+            response=$(curl -s -m 30 -X POST \
+              -H "User-Agent: Mozilla/5.0" \
+              -d "telegram_link=$url" \
+              https://telegramdownloader.net/proxy.php 2>/dev/null)
 
-              local download_url file_name
-              download_url=$(echo "$response" | jq -r '.data.data.link' 2>/dev/null)
-              file_name=$(echo "$response" | jq -r '.data.data.file_name' 2>/dev/null)
+            local download_url file_name
+            download_url=$(echo "$response" | jq -r '.data.data.link' 2>/dev/null)
+            file_name=$(echo "$response" | jq -r '.data.data.file_name' 2>/dev/null)
 
-              if [[ -n "$download_url" && "$download_url" != "null" && "$download_url" != "" ]]; then
-                # Convert spaces to dashes in URL
-                local corrected_url
-                corrected_url=$(echo "$download_url" | sed 's/%20/-/g; s/ /-/g')
+            if [[ -n "$download_url" && "$download_url" != "null" && "$download_url" != "" ]]; then
+              # Convert spaces to dashes in URL
+              local corrected_url
+              corrected_url=$(echo "$download_url" | sed 's/%20/-/g; s/ /-/g')
 
-                # Use provided filename or the one from API
-                local final_name
-                if [[ -n "$output" ]]; then
-                  final_name="$(dirname "$output")/$(basename "$output")"
-                else
-                  final_name="$output"
-                fi
-
-                echo "API returned URL and filename: $file_name"
-                if download_general "$corrected_url" "$output"; then
-                  echo "Downloaded via telegramdownloader.net"
-                  return 0
-                fi
-              else
-                echo "telegramdownloader.net API returned no URL (response: $(echo "$response" | head -c 200))"
-                return 1
+              # Use the final output path directly
+              echo "API returned URL and filename: $file_name"
+              if download_general "$corrected_url" "$output"; then
+                echo "Downloaded via telegramdownloader.net"
+                return 0
               fi
-              return 1
+            else
+              echo "telegramdownloader.net API returned no URL (response: $(echo "$response" | head -c 200))"
+            fi
+            return 1
           }
 
           split_large_file() {
@@ -282,7 +286,12 @@ jobs:
 
                 yt_opts+=("$block_url")
 
-                if yt-dlp --no-progress --js-runtime deno "${yt_opts[@]}"; then
+                local cookies_arg=()
+                if [[ -f "$HOME/.cache/yt-dlp/youtube/cookies.txt" ]]; then
+                  cookies_arg+=(--cookies "$HOME/.cache/yt-dlp/youtube/cookies.txt")
+                fi
+
+                if yt-dlp --no-progress --js-runtime deno "${cookies_arg[@]}" "${yt_opts[@]}"; then
                   if [[ -n "$block_filename" ]]; then
                     local safe_name
                     safe_name=$(sanitize_filename "$block_filename")
@@ -303,7 +312,7 @@ jobs:
                     fi
                     output_file="${final_path}${safe_name}"
                   else
-                    output_file=$(find "$final_path" -maxdepth 1 -type f \( -name '*.mp4' -o -name '*.webm' -o -name '*.mkv' \) | head -1)
+                    output_file=$(find "$final_path" -maxdepth 1 -type f \\( -name '*.mp4' -o -name '*.webm' -o -name '*.mkv' \\) | head -1)
                   fi
 
                   if [[ -n "$output_file" && -f "$output_file" ]]; then
