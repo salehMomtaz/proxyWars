@@ -1,0 +1,10 @@
+=== Parsing commit message ===
+Update constantLinks.txt
+
+download:
+https://github.com/iampedii/WhiteDNS/releases/download/1.1.0/WhiteDNS-1.1.0-universal.apk
+
+path: whiteDns/
+==============================
+/home/runner/work/_temp/a7b5ae7a-a212-4057-94d6-0ed84655d768.sh: line 268: syntax error near unexpected token `('
+/home/runner/work/_temp/a7b5ae7a-a212-4057-94d6-0ed84655d768.sh: line 268: `          output_file=$(find "$final_path" -maxdepth 1 -type f \\( -name '*.mp4' -o -name '*.webm' -o -name '*.mkv' \\) | head -1)'
