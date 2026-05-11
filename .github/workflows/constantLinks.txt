@@ -30,3 +30,4 @@ https://ne6-00ce353197c4.herokuapp.com/stream/2170517?hash=538215&d=true
 https://ne6-00ce353197c4.herokuapp.com/stream/2170757?hash=9acdc8&d=true
 retry
 https://github.com/iampedii/WhiteDNS/releases/download/1.1.0/WhiteDNS-1.1.0-universal.apk
+retry
