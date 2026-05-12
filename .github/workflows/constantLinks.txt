@@ -36,3 +36,4 @@ https://ne6-00ce353197c4.herokuapp.com/stream/2179745?hash=ee260d&d=true
 https://ne6-00ce353197c4.herokuapp.com/stream/2179763?hash=5c3491&d=true
 https://github.com/deniscerri/ytdlnis/releases/download/v1.8.8/YTDLnis-1.8.8-arm64-v8a-release.apk
 https://github.com/therealaleph/MasterHttpRelayVPN-RUST/releases/download/v1.9.22/mhrv-rs-android-arm64-v8a-v1.9.22.apk
+retry
