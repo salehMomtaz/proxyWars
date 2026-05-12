@@ -363,6 +363,7 @@ jobs:
           }
 
           while IFS= read -r line; do
+            line="${line//$'\r'/}"
             if echo "$line" | grep -q '^download:'; then
               [[ "$in_block" == true ]] && process_block
               in_block=true
