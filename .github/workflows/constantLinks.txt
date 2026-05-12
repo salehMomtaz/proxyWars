@@ -19,6 +19,7 @@ https://github.com/telegramdesktop/tdesktop/releases/download/v6.8.1/tsetup-x64.
 
 
 
+
 # other random links
 https://ne6-00ce353197c4.herokuapp.com/stream/2161287?hash=0cd0e6&d=true
 https://ne6-00ce353197c4.herokuapp.com/stream/2161933?hash=65d03e&d=true
@@ -31,3 +32,5 @@ https://ne6-00ce353197c4.herokuapp.com/stream/2170757?hash=9acdc8&d=true
 retry
 https://github.com/iampedii/WhiteDNS/releases/download/1.1.0/WhiteDNS-1.1.0-universal.apk
 retry mistake
+https://ne6-00ce353197c4.herokuapp.com/stream/2179745?hash=ee260d&d=true
+https://ne6-00ce353197c4.herokuapp.com/stream/2179763?hash=5c3491&d=true
