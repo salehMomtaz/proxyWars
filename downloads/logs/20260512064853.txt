@@ -1,0 +1,51 @@
+=== Parsing commit message ===
+Update constantLinks.txt
+
+download:
+https://github.com/therealaleph/MasterHttpRelayVPN-RUST/releases/download/v1.9.22/mhrv-rs-android-arm64-v8a-v1.9.22.apk
+
+path: apk/
+==============================
+
+=== Processing block ===
+URL: https://github.com/therealaleph/MasterHttpRelayVPN-RUST/releases/download/v1.9.22/mhrv-rs-android-arm64-v8a-v1.9.22.apk
+Filename: (auto)
+Path: apk/
+Downloading with fallback chain...
+Trying aria2c...
+
+05/12 06:48:53 [[1;32mNOTICE[0m] Downloading 1 item(s)
+
+05/12 06:48:54 [[1;31mERROR[0m] CUID#7 - Download aborted. URI=https://github.com/therealaleph/MasterHttpRelayVPN-RUST/releases/download/v1.9.22/mhrv-rs-android-arm64-v8a-v1.9.22.apk%0D
+Exception: [AbstractCommand.cc:351] errorCode=3 URI=https://github.com/therealaleph/MasterHttpRelayVPN-RUST/releases/download/v1.9.22/mhrv-rs-android-arm64-v8a-v1.9.22.apk%0D
+  -> [HttpSkipResponseCommand.cc:218] errorCode=3 Resource not found
+
+05/12 06:48:54 [[1;32mNOTICE[0m] Download GID#50d1a23817318d33 not complete: downloads/general/apk/mhrv-rs-android-arm64-v8a-v1.9.22.apk
+
+Download Results:
+gid   |stat|avg speed  |path/URI
+======+====+===========+=======================================================
+50d1a2|ERR |       0B/s|downloads/general/apk/mhrv-rs-android-arm64-v8a-v1.9.22.apk
+
+Status Legend:
+(ERR):error occurred.
+
+aria2 will resume download if the transfer is restarted.
+If there are any errors, then see the log file. See '-l' option in help/man page for details.
+Trying curl...
+curl: (3) URL rejected: Malformed input to a URL function
+Trying wget...
+--2026-05-12 06:48:54--  https://github.com/therealaleph/MasterHttpRelayVPN-RUST/releases/download/v1.9.22/mhrv-rs-android-arm64-v8a-v1.9.22.apk%0D
+Resolving github.com (github.com)... 140.82.114.4
+Connecting to github.com (github.com)|140.82.114.4|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-05-12 06:48:54 ERROR 404: Not Found.
+
+FAIL: General download failed: https://github.com/therealaleph/MasterHttpRelayVPN-RUST/releases/download/v1.9.22/mhrv-rs-android-arm64-v8a-v1.9.22.apk
+=======================
+
+=== Download summary ===
+Requested: 1
+Succeeded: 0
+Failed: 1
+Log file: downloads/logs/20260512064853.txt
