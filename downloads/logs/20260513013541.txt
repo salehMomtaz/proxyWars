@@ -1,0 +1,120 @@
+=== Parsing commit message ===
+Update constantLinks.txt
+
+download:
+https://ne6-00ce353197c4.herokuapp.com/stream/2189450?hash=cdc571&d=true | capitolReport14050222_1.mp3
+path: audio/capitolReport/
+
+download:
+https://ne6-00ce353197c4.herokuapp.com/stream/2189440?hash=01660d&d=true | capitolReport14050222_2.mp3
+path: audio/capitolReport/
+
+download:
+https://ne6-00ce353197c4.herokuapp.com/stream/2189518?hash=586020&d=true | dailyReport14050222.mp4
+path: dailyReports/
+
+download:
+https://ne6-00ce353197c4.herokuapp.com/stream/2189524?hash=f9739b&d=true | vaisi14050223.mp3
+
+path: audio/vaisi/
+==============================
+
+=== Processing block ===
+URL: https://ne6-00ce353197c4.herokuapp.com/stream/2189450?hash=cdc571&d=true
+Filename: capitolReport14050222_1.mp3
+Path: audio/capitolReport/
+Downloading with fallback chain...
+Trying aria2c...
+
+05/13 01:35:41 [[1;32mNOTICE[0m] Downloading 1 item(s)
+[#f25827 7.0MiB/27MiB(25%) CN:16 DL:11MiB ETA:1s]
+[#f25827 26MiB/27MiB(96%) CN:2 DL:15MiB]
+
+05/13 01:35:43 [[1;32mNOTICE[0m] Download complete: downloads/general/audio/capitolReport/capitolReport14050222_1.mp3
+
+Download Results:
+gid   |stat|avg speed  |path/URI
+======+====+===========+=======================================================
+f25827|OK  |    15MiB/s|downloads/general/audio/capitolReport/capitolReport14050222_1.mp3
+
+Status Legend:
+(OK):download completed.
+OK: General download succeeded: https://ne6-00ce353197c4.herokuapp.com/stream/2189450?hash=cdc571&d=true
+=======================
+
+=== Processing block ===
+URL: https://ne6-00ce353197c4.herokuapp.com/stream/2189440?hash=01660d&d=true
+Filename: capitolReport14050222_2.mp3
+Path: audio/capitolReport/
+Downloading with fallback chain...
+Trying aria2c...
+
+05/13 01:35:44 [[1;32mNOTICE[0m] Downloading 1 item(s)
+[#293e1b 8.0MiB/27MiB(29%) CN:16 DL:13MiB ETA:1s]
+[#293e1b 26MiB/27MiB(96%) CN:1 DL:11MiB]
+
+05/13 01:35:46 [[1;32mNOTICE[0m] Download complete: downloads/general/audio/capitolReport/capitolReport14050222_2.mp3
+
+Download Results:
+gid   |stat|avg speed  |path/URI
+======+====+===========+=======================================================
+293e1b|OK  |    11MiB/s|downloads/general/audio/capitolReport/capitolReport14050222_2.mp3
+
+Status Legend:
+(OK):download completed.
+OK: General download succeeded: https://ne6-00ce353197c4.herokuapp.com/stream/2189440?hash=01660d&d=true
+=======================
+
+=== Processing block ===
+URL: https://ne6-00ce353197c4.herokuapp.com/stream/2189518?hash=586020&d=true
+Filename: dailyReport14050222.mp4
+Path: dailyReports/
+Downloading with fallback chain...
+Trying aria2c...
+
+05/13 01:35:46 [[1;32mNOTICE[0m] Downloading 1 item(s)
+[#dca1ef 0B/0B CN:1 DL:0B]
+[#dca1ef 23MiB/77MiB(29%) CN:16 DL:23MiB ETA:2s]
+[#dca1ef 62MiB/77MiB(79%) CN:16 DL:31MiB]
+[#dca1ef 76MiB/77MiB(98%) CN:3 DL:25MiB]
+
+05/13 01:35:51 [[1;32mNOTICE[0m] Download complete: downloads/general/dailyReports/dailyReport14050222.mp4
+
+Download Results:
+gid   |stat|avg speed  |path/URI
+======+====+===========+=======================================================
+dca1ef|OK  |    25MiB/s|downloads/general/dailyReports/dailyReport14050222.mp4
+
+Status Legend:
+(OK):download completed.
+OK: General download succeeded: https://ne6-00ce353197c4.herokuapp.com/stream/2189518?hash=586020&d=true
+=======================
+
+=== Processing block ===
+URL: https://ne6-00ce353197c4.herokuapp.com/stream/2189524?hash=f9739b&d=true
+Filename: vaisi14050223.mp3
+Path: audio/vaisi/
+Downloading with fallback chain...
+Trying aria2c...
+
+05/13 01:35:51 [[1;32mNOTICE[0m] Downloading 1 item(s)
+[#439137 9.1MiB/27MiB(33%) CN:16 DL:14MiB ETA:1s]
+[#439137 26MiB/27MiB(96%) CN:1 DL:13MiB]
+
+05/13 01:35:53 [[1;32mNOTICE[0m] Download complete: downloads/general/audio/vaisi/vaisi14050223.mp3
+
+Download Results:
+gid   |stat|avg speed  |path/URI
+======+====+===========+=======================================================
+439137|OK  |    13MiB/s|downloads/general/audio/vaisi/vaisi14050223.mp3
+
+Status Legend:
+(OK):download completed.
+OK: General download succeeded: https://ne6-00ce353197c4.herokuapp.com/stream/2189524?hash=f9739b&d=true
+=======================
+
+=== Download summary ===
+Requested: 4
+Succeeded: 4
+Failed: 0
+Log file: downloads/logs/20260513013541.txt
