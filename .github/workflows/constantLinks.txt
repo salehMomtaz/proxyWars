@@ -47,3 +47,4 @@ https://ne6-00ce353197c4.herokuapp.com/stream/2200249?hash=e3b6a0&d=true
 https://ne6-00ce353197c4.herokuapp.com/stream/2200257?hash=e55fa1&d=true
 https://ne6-00ce353197c4.herokuapp.com/stream/2200315?hash=2f05ae&d=true
 https://ne6-00ce353197c4.herokuapp.com/stream/2201828?hash=4ae4d5&d=true
+https://github.com/therealaleph/MasterHttpRelayVPN-RUST/releases/download/v1.9.25/mhrv-rs-android-universal-v1.9.25.apk
