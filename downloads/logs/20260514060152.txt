@@ -1,0 +1,58 @@
+=== Parsing commit message ===
+Update constantLinks.txt
+
+download:
+https://ne6-00ce353197c4.herokuapp.com/stream/2200315?hash=2f05ae&d=true | capitolReport14050223_1.mp3
+path: audio/capitolReports/
+==============================
+
+=== Processing block ===
+URL: https://ne6-00ce353197c4.herokuapp.com/stream/2200315?hash=2f05ae&d=true
+Filename: capitolReport14050223_1.mp3
+Path: audio/capitolReports/
+Downloading with fallback chain...
+Trying aria2c...
+
+05/14 06:01:52 [[1;32mNOTICE[0m] Downloading 1 item(s)
+[#c701d1 0B/0B CN:1 DL:0B]
+[#c701d1 0B/0B CN:1 DL:0B]
+[#c701d1 0B/0B CN:1 DL:0B]
+[#c701d1 0B/0B CN:1 DL:0B]
+[#c701d1 0B/0B CN:1 DL:0B]
+[#c701d1 0B/0B CN:1 DL:0B]
+[#c701d1 0B/0B CN:1 DL:0B]
+[#c701d1 0B/0B CN:1 DL:0B]
+[#c701d1 48KiB/19MiB(0%) CN:16 DL:316KiB ETA:1m4s]
+[#c701d1 1.0MiB/19MiB(5%) CN:16 DL:624KiB ETA:31s]
+[#c701d1 1.0MiB/19MiB(5%) CN:16 DL:389KiB ETA:49s]
+[#c701d1 2.0MiB/19MiB(10%) CN:16 DL:474KiB ETA:38s]
+[#c701d1 3.7MiB/19MiB(19%) CN:16 DL:732KiB ETA:22s]
+[#c701d1 4.0MiB/19MiB(20%) CN:16 DL:644KiB ETA:25s]
+[#c701d1 4.2MiB/19MiB(21%) CN:16 DL:585KiB ETA:27s]
+[#c701d1 8.7MiB/19MiB(43%) CN:12 DL:1.0MiB ETA:10s]
+[#c701d1 9.9MiB/19MiB(49%) CN:10 DL:1.0MiB ETA:9s]
+[#c701d1 11MiB/19MiB(59%) CN:8 DL:1.3MiB ETA:6s]
+[#c701d1 13MiB/19MiB(68%) CN:7 DL:1.3MiB ETA:4s]
+[#c701d1 14MiB/19MiB(70%) CN:6 DL:1.4MiB ETA:4s]
+[#c701d1 17MiB/19MiB(89%) CN:3 DL:1.6MiB ETA:1s]
+[#c701d1 18MiB/19MiB(94%) CN:1 DL:1.8MiB]
+[#c701d1 18MiB/19MiB(94%) CN:1 DL:1.6MiB]
+[#c701d1 18MiB/19MiB(94%) CN:1 DL:1.2MiB]
+
+05/14 06:02:19 [[1;32mNOTICE[0m] Download complete: downloads/general/audio/capitolReports/capitolReport14050223_1.mp3
+
+Download Results:
+gid   |stat|avg speed  |path/URI
+======+====+===========+=======================================================
+c701d1|OK  |   1.1MiB/s|downloads/general/audio/capitolReports/capitolReport14050223_1.mp3
+
+Status Legend:
+(OK):download completed.
+OK: General download succeeded: https://ne6-00ce353197c4.herokuapp.com/stream/2200315?hash=2f05ae&d=true
+=======================
+
+=== Download summary ===
+Requested: 1
+Succeeded: 1
+Failed: 0
+Log file: downloads/logs/20260514060152.txt
