@@ -1,1 +1,1 @@
-print("not yet")
+print("wanted to write a code to unite all my notes from google keep and evernote. around 5000 notes. but obsidian already has plugins which handle such tasks perfectly. so this would be useless. chaining of available tools eis better than writing a whole new code for fulfilling the same objevtice. ")
