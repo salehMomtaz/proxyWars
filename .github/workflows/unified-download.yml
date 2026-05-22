@@ -259,9 +259,12 @@ jobs:
               youtube)
                 echo "Downloading with yt-dlp + Deno..."
 
+                # Create marker file before download
+                touch /tmp/yt_download_marker
+
                 local yt_opts=()
                 if [[ "$block_quality" != "best" ]]; then
-                  yt_opts+=(--format "bv*[height=$block_quality]/b[height=$block_quality]/bv*+ba/b")
+                  yt_opts+=(--format "bv*[height=$block_quality]+ba/b[height=$block_quality]/bv*+ba/b")
                 fi
 
                 if [[ "$block_audio_only" == true ]]; then
@@ -273,6 +276,9 @@ jobs:
                 else
                   yt_opts+=(--no-playlist)
                 fi
+
+                # Force merge into mp4 to ensure audio+video are combined
+                yt_opts+=(--merge-output-format mp4)
 
                 if [[ -n "$block_filename" ]]; then
                   local safe_name
@@ -292,30 +298,28 @@ jobs:
                 fi
 
                 if yt-dlp --no-progress --js-runtime deno "${cookies_arg[@]}" "${yt_opts[@]}"; then
-                  if [[ -n "$block_filename" ]]; then
-                    local safe_name
-                    safe_name=$(sanitize_filename "$block_filename")
-                    local found_file=""
-                    for f in "${final_path}"*; do
-                      if [[ -f "$f" ]]; then
-                        found_file="$f"
-                        break
-                      fi
-                    done
-                    if [[ -n "$found_file" && "$(basename "$found_file")" != "${final_path}${safe_name}" ]]; then
-                      local mv_dest="${final_path}${safe_name}"
-                      if [[ -e "$mv_dest" ]]; then
-                        mv_dest="${final_path}${safe_name}_$(date +%s)"
-                      fi
-                      mv "$found_file" "$mv_dest"
-                      echo "Renamed to: $(basename "$mv_dest")"
-                    fi
-                    output_file="${final_path}${safe_name}"
-                  else
-                    output_file=$(ls -t "$final_path"/*.{mp4,webm,mkv} 2>/dev/null | head -1)
-                  fi
+                  # Find the downloaded file (any file created after marker)
+                  output_file=$(find "$final_path" -maxdepth 1 -type f -newer /tmp/yt_download_marker 2>/dev/null | head -n1)
 
                   if [[ -n "$output_file" && -f "$output_file" ]]; then
+                    # Rename if user specified a filename
+                    if [[ -n "$block_filename" ]]; then
+                      local safe_name
+                      safe_name=$(sanitize_filename "$block_filename")
+                      local current_ext="${output_file##*.}"
+                      local base="${safe_name%.*}"
+                      local new_name="${final_path}${base}.${current_ext}"
+                      
+                      if [[ "$output_file" != "$new_name" ]]; then
+                        if [[ -e "$new_name" ]]; then
+                          new_name="${final_path}${base}_$(date +%s).${current_ext}"
+                        fi
+                        mv "$output_file" "$new_name"
+                        output_file="$new_name"
+                        echo "Renamed to: $(basename "$output_file")"
+                      fi
+                    fi
+
                     log_ok "YouTube download succeeded: $block_url"
                     split_large_file "$output_file"
                   else
@@ -456,7 +460,3 @@ jobs:
         if: always()
         run: |
           if grep -q '^all_failed=true$' /tmp/unified-download-status 2>/dev/null; then
-            echo "⚠️ Every requested download failed. Logs were committed for inspection."
-            exit 1
-          fi
-          echo "✅ Downloads completed successfully."
