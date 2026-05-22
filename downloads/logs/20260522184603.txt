@@ -1,0 +1,26 @@
+=== Parsing commit message ===
+test for large youtube video
+
+download:
+https://www.youtube.com/watch?v=3okTHZvp3Ds | alaii14050301.mp4
+path: alaii/
+==============================
+Downloading with yt-dlp + Deno...
+[youtube] Extracting URL: https://www.youtube.com/watch?v=3okTHZvp3Ds
+[youtube] 3okTHZvp3Ds: Downloading webpage
+[youtube] 3okTHZvp3Ds: Downloading tv downgraded player API JSON
+[youtube] 3okTHZvp3Ds: Downloading player c2f7551f-main
+[youtube] [jsc:deno] Solving JS challenges using deno
+[youtube] 3okTHZvp3Ds: Downloading m3u8 information
+[info] 3okTHZvp3Ds: Downloading 1 format(s): 398+251
+[download] Destination: downloads/youtube/alaii/alaii14050301.f398.mp4
+[download] Download completed
+[download] Destination: downloads/youtube/alaii/alaii14050301.f251.webm
+[download] Download completed
+[Merger] Merging formats into "downloads/youtube/alaii/alaii14050301.mp4"
+Deleting original file downloads/youtube/alaii/alaii14050301.f251.webm (pass -k to keep)
+Deleting original file downloads/youtube/alaii/alaii14050301.f398.mp4 (pass -k to keep)
+OK: YouTube download succeeded: https://www.youtube.com/watch?v=3okTHZvp3Ds
+File is 195MB, splitting into 90MB parts...
+  adding: alaii14050301.mp4 (stored 0%)
+Split into parts in: downloads/youtube/alaii/alaii14050301/
