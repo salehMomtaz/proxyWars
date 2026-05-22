@@ -14,6 +14,7 @@ Important: Make sure your cookies file is in valid Netscape format. Each line sh
 .youtube.com TRUE / TRUE 1234567890 cookie_name cookie_value
 
 If yt-dlp still has authentication issues, the cookies might be expired or incomplete. You may need to export fresh cookies that include authentication tokens. 
+take a look at https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies
 download:
 
 https://speed.hetzner.de/100MB.bin | test.bin
