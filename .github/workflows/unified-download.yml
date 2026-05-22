@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependencies
         run: |
@@ -27,9 +28,10 @@ jobs:
           sudo curl -L -o /usr/local/bin/yt-dlp "https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest/download/yt-dlp_linux"
           sudo chmod a+rx /usr/local/bin/yt-dlp
 
-          # Install Deno for yt-dlp JavaScript runtime (bypasses YouTube bot detection)
-          curl -fsSL https://deno.land/x/install/install.sh | sh -s v2.4.5
-          echo "$HOME/.deno/bin" >> "$GITHUB_PATH"
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.4.5
 
       - name: Setup YouTube cookies
         env:
@@ -37,7 +39,7 @@ jobs:
         run: |
           if [[ -n "$YT_COOKIES" ]]; then
             mkdir -p ~/.cache/yt-dlp/youtube
-            printf '%s\n' "$YT_COOKIES" > ~/.cache/yt-dlp/youtube/cookies.txt
+            echo "$YT_COOKIES" > ~/.cache/yt-dlp/youtube/cookies.txt
             echo "Cookies installed ($(wc -l < ~/.cache/yt-dlp/youtube/cookies.txt) lines)"
           else
             echo "No YOUTUBE_COOKIES secret set — YouTube may be blocked by bot detection"
@@ -75,7 +77,6 @@ jobs:
           sanitize_filename() {
             local name="$1"
             name=$(basename "$name")
-            # Replace anything that isn't alphanumeric, dot, underscore, or hyphen
             name=$(printf '%s' "$name" | sed 's/[^a-zA-Z0-9._-]/_/g; s/__*/_/g; s/^_//;s/_$//')
             name=$(printf '%s' "$name" | tr ' ' '_')
             [[ -n "$name" ]] && printf '%s\n' "$name" || printf 'download_%s.file\n' "$(date +%s)"
@@ -163,11 +164,8 @@ jobs:
             file_name=$(echo "$response" | jq -r '.data.data.file_name' 2>/dev/null)
 
             if [[ -n "$download_url" && "$download_url" != "null" && "$download_url" != "" ]]; then
-              # Convert spaces to dashes in URL
               local corrected_url
               corrected_url=$(echo "$download_url" | sed 's/%20/-/g; s/ /-/g')
-
-              # Use the final output path directly
               echo "API returned URL and filename: $file_name"
               if download_general "$corrected_url" "$output"; then
                 echo "Downloaded via telegramdownloader.net"
@@ -192,22 +190,16 @@ jobs:
             fi
 
             echo "File is $((${filesize}/1024/1024))MB, splitting into 90MB parts..."
-
-            local dir
-            dir=$(dirname "$filepath")
-            local full_name
-            full_name=$(basename "$filepath")
+            local dir=$(dirname "$filepath")
+            local full_name=$(basename "$filepath")
             local name_no_ext="${full_name%.*}"
-
             local split_dir="${dir}/${name_no_ext}"
             mkdir -p "$split_dir"
 
             zip -0 -s 90m -j "${split_dir}/${full_name}.zip" "$filepath"
-
             rm -f "$filepath"
 
             echo "Split into parts in: ${split_dir}/"
-            echo "Files: $(ls -la "${split_dir}/" 2>/dev/null | tail -n +2 | awk '{print $NF}' | paste -sd, -)"
           }
 
           detect_url_type() {
@@ -234,23 +226,11 @@ jobs:
           block_playlist=false
 
           process_block() {
-            if [[ -z "$block_url" ]]; then
-              echo "No URL in block, skipping"
-              return
-            fi
-
+            if [[ -z "$block_url" ]]; then return; fi
             total_requested=$((total_requested + 1))
-            echo ""
-            echo "=== Processing block ==="
-            echo "URL: $block_url"
-            echo "Filename: ${block_filename:-(auto)}"
-            echo "Path: ${block_path:-(default)}"
-
-            local url_type
-            url_type=$(detect_url_type "$block_url")
-
-            local final_path
-            final_path=$(get_final_path "$url_type" "$block_path")
+            
+            local url_type=$(detect_url_type "$block_url")
+            local final_path=$(get_final_path "$url_type" "$block_path")
             mkdir -p "$final_path"
 
             local output_file=""
@@ -258,14 +238,17 @@ jobs:
             case "$url_type" in
               youtube)
                 echo "Downloading with yt-dlp + Deno..."
+                touch /tmp/yt_download_marker
 
                 local yt_opts=()
-                if [[ "$block_quality" != "best" ]]; then
-                  yt_opts+=(--format "bv*[height=$block_quality]/b[height=$block_quality]/bv*+ba/b")
+                if [[ "$block_filename" == *.mp3 ]]; then
+                  block_audio_only=true
                 fi
 
                 if [[ "$block_audio_only" == true ]]; then
                   yt_opts+=(--extract-audio --audio-format mp3)
+                elif [[ "$block_quality" != "best" ]]; then
+                  yt_opts+=(--format "bv*[height=$block_quality]+ba/b[height=$block_quality]/bv*+ba/b" --merge-output-format mp4)
                 fi
 
                 if [[ "$block_playlist" == true ]]; then
@@ -275,91 +258,51 @@ jobs:
                 fi
 
                 if [[ -n "$block_filename" ]]; then
-                  local safe_name
-                  safe_name=$(sanitize_filename "$block_filename")
-                  local ext="${safe_name##*.}"
-                  local base="${safe_name%.*}"
-                  yt_opts+=(-o "${final_path}${base}.%(ext)s")
+                  local safe_name=$(sanitize_filename "${block_filename%.*}")
+                  yt_opts+=(-o "${final_path}${safe_name}.%(ext)s")
                 else
                   yt_opts+=(-o "${final_path}%(title)s.%(ext)s")
                 fi
 
                 yt_opts+=("$block_url")
 
-                local cookies_arg=()
                 if [[ -f "$HOME/.cache/yt-dlp/youtube/cookies.txt" ]]; then
-                  cookies_arg+=(--cookies "$HOME/.cache/yt-dlp/youtube/cookies.txt")
+                  yt_opts+=(--cookies "$HOME/.cache/yt-dlp/youtube/cookies.txt")
                 fi
 
-                if yt-dlp --no-progress --js-runtime deno "${cookies_arg[@]}" "${yt_opts[@]}"; then
-                  if [[ -n "$block_filename" ]]; then
-                    local safe_name
-                    safe_name=$(sanitize_filename "$block_filename")
-                    local found_file=""
-                    for f in "${final_path}"*; do
-                      if [[ -f "$f" ]]; then
-                        found_file="$f"
-                        break
-                      fi
-                    done
-                    if [[ -n "$found_file" && "$(basename "$found_file")" != "${final_path}${safe_name}" ]]; then
-                      local mv_dest="${final_path}${safe_name}"
-                      if [[ -e "$mv_dest" ]]; then
-                        mv_dest="${final_path}${safe_name}_$(date +%s)"
-                      fi
-                      mv "$found_file" "$mv_dest"
-                      echo "Renamed to: $(basename "$mv_dest")"
-                    fi
-                    output_file="${final_path}${safe_name}"
-                  else
-                    output_file=$(ls -t "$final_path"/*.{mp4,webm,mkv} 2>/dev/null | head -1)
-                  fi
-
-                  if [[ -n "$output_file" && -f "$output_file" ]]; then
+                if yt-dlp --no-progress --js-runtime deno "${yt_opts[@]}"; then
+                  output_file=$(find "$final_path" -maxdepth 1 -type f -newer /tmp/yt_download_marker 2>/dev/null | head -n1)
+                  if [[ -n "$output_file" ]]; then
                     log_ok "YouTube download succeeded: $block_url"
                     split_large_file "$output_file"
                   else
-                    log_fail "YouTube download succeeded but file not found: $block_url"
+                    log_fail "YouTube download succeeded but file not found"
                   fi
                 else
                   log_fail "YouTube download failed: $block_url"
                 fi
                 ;;
-
               telegram)
-                echo "Downloading from Telegram..."
-
-                local safe_name
-                safe_name=$(sanitize_filename "${block_filename:-telegram_$(date +%s).file}")
+                local safe_name=$(sanitize_filename "${block_filename:-telegram_$(date +%s).file}")
                 output_file="${final_path}${safe_name}"
-
                 if download_telegram "$block_url" "$output_file"; then
-                  log_ok "Telegram download succeeded: $block_url"
+                  log_ok "Telegram download succeeded"
                   split_large_file "$output_file"
                 else
-                  log_fail "Telegram download failed: $block_url"
+                  log_fail "Telegram download failed"
                 fi
                 ;;
-
               general)
-                echo "Downloading with fallback chain..."
-
-                if [[ -z "$block_filename" ]]; then
-                  block_filename=$(basename "${block_url%%\?*}")
-                fi
-                safe_name=$(sanitize_filename "$block_filename")
-                output_file="${final_path}${safe_name}"
-
+                if [[ -z "$block_filename" ]]; then block_filename=$(basename "${block_url%%\?*}"); fi
+                output_file="${final_path}$(sanitize_filename "$block_filename")"
                 if download_general "$block_url" "$output_file"; then
-                  log_ok "General download succeeded: $block_url"
+                  log_ok "General download succeeded"
                   split_large_file "$output_file"
                 else
-                  log_fail "General download failed: $block_url"
+                  log_fail "General download failed"
                 fi
                 ;;
             esac
-
-            echo "======================="
           }
 
           while IFS= read -r line; do
@@ -367,96 +310,43 @@ jobs:
             if echo "$line" | grep -q '^download:'; then
               [[ "$in_block" == true ]] && process_block
               in_block=true
-              block_url=""
-              block_filename=""
-              block_path=""
-              block_quality="720"
-              block_audio_only=false
-              block_playlist=false
+              block_url=""; block_filename=""; block_path=""; block_quality="720"; block_audio_only=false; block_playlist=false
               continue
             fi
-
-            [[ "$in_block" != true ]] && continue
-            [[ -z "$line" ]] && continue
-
+            [[ "$in_block" != true || -z "$line" ]] && continue
             if echo "$line" | grep -q '|'; then
-              pipe_count=$(echo "$line" | tr -cd '|' | wc -c)
-              if [[ "$pipe_count" -gt 1 ]]; then
-                echo "Invalid URL line (multiple | separators): $line"
-                log_fail "Invalid URL line"
-                in_block=false
-                continue
-              fi
               block_url=$(echo "$line" | cut -d'|' -f1 | xargs)
               block_filename=$(echo "$line" | cut -d'|' -f2 | xargs)
-              continue
-            fi
-
-            if echo "$line" | grep -q '^path:'; then
-              block_path=$(echo "$line" | sed 's/^path:[[:space:]]*//' | xargs)
-              block_path=$(sanitize_path "$block_path")
-              continue
-            fi
-
-            if echo "$line" | grep -q '^quality:'; then
+            elif echo "$line" | grep -q '^path:'; then
+              block_path=$(sanitize_path "$(echo "$line" | sed 's/^path:[[:space:]]*//' | xargs)")
+            elif echo "$line" | grep -q '^quality:'; then
               block_quality=$(echo "$line" | sed 's/^quality:[[:space:]]*//' | xargs)
-              continue
-            fi
-
-            if echo "$line" | grep -q '^audio-only:[[:space:]]*true'; then
+            elif echo "$line" | grep -q '^audio-only:[[:space:]]*true'; then
               block_audio_only=true
-              continue
-            fi
-
-            if echo "$line" | grep -q '^playlist:[[:space:]]*yes'; then
+            elif echo "$line" | grep -q '^playlist:[[:space:]]*yes'; then
               block_playlist=true
-              continue
-            fi
-
-            if [[ -z "$block_url" ]] && echo "$line" | grep -qE '^https?://'; then
+            elif [[ -z "$block_url" ]] && echo "$line" | grep -qE '^https?://'; then
               block_url=$(echo "$line" | xargs)
             fi
           done <<< "$COMMIT_MSG"
-
           [[ "$in_block" == true ]] && process_block
 
-          find downloads -name '*.aria2' -delete 2>/dev/null || true
+          echo "all_failed=$([[ $total_failed -gt 0 && $total_success -eq 0 ]] && echo 'true' || echo 'false')" > "$STATUS_FILE"
 
-          echo ""
-          echo "=== Download summary ==="
-          echo "Requested: $total_requested"
-          echo "Succeeded: $total_success"
-          echo "Failed: $total_failed"
-          echo "Log file: $LOG_FILE"
-
-          if [[ "$total_requested" -gt 0 && "$total_success" -eq 0 ]]; then
-            echo "all_failed=true" > "$STATUS_FILE"
-          else
-            echo "all_failed=false" > "$STATUS_FILE"
-          fi
-
-          exit 0
-
-      - name: Commit downloaded files and logs
+      - name: Commit downloaded files
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
           if [[ -n $(git status -s downloads/) ]]; then
             git add downloads/
-            git commit -m "Add downloaded files and logs [skip ci]"
+            git commit -m "Add downloaded files [skip ci]"
             git push
-            echo "Files committed and pushed"
-          else
-            echo "⚠️ No new files to commit"
           fi
 
       - name: Check if all downloads failed
         if: always()
         run: |
           if grep -q '^all_failed=true$' /tmp/unified-download-status 2>/dev/null; then
-            echo "⚠️ Every requested download failed. Logs were committed for inspection."
             exit 1
           fi
-          echo "✅ Downloads completed successfully."
