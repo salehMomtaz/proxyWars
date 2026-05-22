@@ -1,5 +1,19 @@
 # Test workflow
+To add your YouTube cookies to GitHub Secrets:
 
+Go to your repository on GitHub
+Settings → Secrets and variables → Actions
+Click “New repository secret”
+Name: YOUTUBE_COOKIES
+Value: Paste the entire contents of your Netscape format cookies file
+Click “Add secret”
+The workflow will automatically use it in the “Setup YouTube cookies” step (line 62-68), creating the ~/.cache/yt-dlp/youtube/cookies.txt file that yt-dlp reads.
+
+Important: Make sure your cookies file is in valid Netscape format. Each line should look like:
+
+.youtube.com TRUE / TRUE 1234567890 cookie_name cookie_value
+
+If yt-dlp still has authentication issues, the cookies might be expired or incomplete. You may need to export fresh cookies that include authentication tokens. 
 download:
 
 https://speed.hetzner.de/100MB.bin | test.bin
