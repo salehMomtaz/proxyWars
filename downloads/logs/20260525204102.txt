@@ -1,0 +1,10 @@
+=== Parsing commit message ===
+second telegram download test 
+
+download:
+https://t.me/mvaisipodcasts/3240 | capitolReport14050304.ogg
+path: capitolReports/
+==============================
+Trying telegramdownloader.net API...
+telegramdownloader.net API returned no URL (response: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam)
+FAIL: Telegram download failed
