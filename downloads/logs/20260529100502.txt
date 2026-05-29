@@ -1,0 +1,10 @@
+=== Parsing commit message ===
+thumbnail fix change
+
+download: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+mode: video
+upload-after: yes
+target: -1003963721258
+caption: test thumbnail
+keep-on-repo: no
+==============================
