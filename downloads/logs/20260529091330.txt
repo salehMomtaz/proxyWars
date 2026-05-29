@@ -1,0 +1,29 @@
+=== Parsing commit message ===
+telegram upload module test
+
+download:
+https://www.youtube.com/watch?v=qw4fDU18RcU
+quality: 1080
+upload-after: yes
+target: -1003963721258
+caption: uploaded by github action
+keep-on-repo: no
+==============================
+Downloading with yt-dlp + Deno...
+[youtube] Extracting URL: https://www.youtube.com/watch?v=qw4fDU18RcU
+[youtube] qw4fDU18RcU: Downloading webpage
+[youtube] qw4fDU18RcU: Downloading tv downgraded player API JSON
+[youtube] qw4fDU18RcU: Downloading player 9fc68080-main
+[youtube] [jsc:deno] Solving JS challenges using deno
+[youtube] qw4fDU18RcU: Downloading m3u8 information
+[info] qw4fDU18RcU: Downloading 1 format(s): 399+251-12
+[download] Destination: downloads/youtube/STOP. Using AI Right now.f399.mp4
+[download] Download completed
+[download] Destination: downloads/youtube/STOP. Using AI Right now.f251-12.webm
+[download] Download completed
+[Merger] Merging formats into "downloads/youtube/STOP. Using AI Right now.mp4"
+Deleting original file downloads/youtube/STOP. Using AI Right now.f251-12.webm (pass -k to keep)
+Deleting original file downloads/youtube/STOP. Using AI Right now.f399.mp4 (pass -k to keep)
+OK: YouTube download succeeded: https://www.youtube.com/watch?v=qw4fDU18RcU
+{"ok": true, "target": "-1003963721258", "file": "downloads/youtube/STOP. Using AI Right now.mp4", "caption": "uploaded by github action", "message_id": 2}
+OK: Post-download upload succeeded to -1003963721258
