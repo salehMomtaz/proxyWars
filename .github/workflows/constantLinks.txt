@@ -57,6 +57,15 @@ upload-after: yes
 target: -1003963721258
 caption: test thumbnail
 keep-on-repo: no
+results: failed
+
+## thumbnail test
+download:
+https://www.youtube.com/watch?v=dQw4w9WgXcQ
+upload-after: yes
+target: -1003963721258
+caption: AI council
+keep-on-repo: no
 
 
 ---
