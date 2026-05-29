@@ -40,6 +40,15 @@ upload:
 https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-riscv64.img
 target: -1003963721258
 caption: uploaded by github action
+result: failed
+## telegram upload
+download:
+https://www.youtube.com/watch?v=qw4fDU18RcU
+quality: 1080
+upload-after: yes
+target: -1003963721258
+caption: uploaded by github action
+keep-on-repo: no
 result:
 
 ---
@@ -68,7 +77,8 @@ https://ne6-00ce353197c4.herokuapp.com/stream/2161287?hash=0cd0e6&d=true
 https://ne6-00ce353197c4.herokuapp.com/stream/2161933?hash=65d03e&d=true
 https://www.youtube.com/watch?v=8woRkDmtl7A
 https://www.youtube.com/watch?v=76L7dpY4OPo
-https://ne6-00ce353197c4.herokuapp.com/stream/2170001?hash=77fab7&d=true
+https://ne6-00ce353197c4.herokuapp.com/stream/2170001?hash=77fab7&d
+=true
 wrong path
 https://ne6-00ce353197c4.herokuapp.com/stream/2170517?hash=538215&d=true
 https://ne6-00ce353197c4.herokuapp.com/stream/2170757?hash=9acdc8&d=true
