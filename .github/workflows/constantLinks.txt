@@ -20,7 +20,14 @@ another test for mp3
 
 Test for large youtube video size
 If work correctly then we will use self hosted action runners for lesser process on github
+---
+Testing telegram download
+single video
 
+
+
+
+---
 download:
 
 https://speed.hetzner.de/100MB.bin | test.bin
