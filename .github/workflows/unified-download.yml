@@ -7,7 +7,7 @@ on:
 jobs:
   download:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, 'download:')
+    if: contains(github.event.head_commit.message, 'download:') || contains(github.event.head_commit.message, 'upload:')
 
     permissions:
       contents: write
@@ -22,7 +22,9 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y aria2 curl wget zip jq ffmpeg
+          sudo apt-get install -y aria2 curl wget zip jq ffmpeg python3 python3-pip
+          python3 -m pip install --upgrade pip
+          python3 -m pip install telethon
 
           # Install yt-dlp nightly
           sudo curl -L -o /usr/local/bin/yt-dlp "https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest/download/yt-dlp_linux"
@@ -45,7 +47,15 @@ jobs:
             echo "No YOUTUBE_COOKIES secret set — YouTube may be blocked by bot detection"
           fi
 
-      - name: Parse commit message and download files
+      - name: Ensure Telegram scripts are executable
+        run: |
+          chmod +x scripts/tg_download.py scripts/tg_upload.py
+
+      - name: Parse commit message and process download/upload
+        env:
+          TG_API_ID: ${{ secrets.TG_API_ID }}
+          TG_API_HASH: ${{ secrets.TG_API_HASH }}
+          TG_STRING_SESSION: ${{ secrets.TG_STRING_SESSION }}
         run: |
           set +e
 
@@ -150,31 +160,39 @@ jobs:
 
           download_telegram() {
             local url="$1"
-            local output="$2"
+            local out_dir="$2"
+            local base_name="$3"
 
-            echo "Trying telegramdownloader.net API..."
-            local response
-            response=$(curl -s -m 30 -X POST \
-              -H "User-Agent: Mozilla/5.0" \
-              -d "telegram_link=$url" \
-              https://telegramdownloader.net/proxy.php 2>/dev/null)
+            mkdir -p "$out_dir"
+            local json_out
+            json_out=$(python3 scripts/tg_download.py "$url" "$out_dir" "$base_name" 2>/tmp/tg_err.log)
+            local rc=$?
 
-            local download_url file_name
-            download_url=$(echo "$response" | jq -r '.data.data.link' 2>/dev/null)
-            file_name=$(echo "$response" | jq -r '.data.data.file_name' 2>/dev/null)
-
-            if [[ -n "$download_url" && "$download_url" != "null" && "$download_url" != "" ]]; then
-              local corrected_url
-              corrected_url=$(echo "$download_url" | sed 's/%20/-/g; s/ /-/g')
-              echo "API returned URL and filename: $file_name"
-              if download_general "$corrected_url" "$output"; then
-                echo "Downloaded via telegramdownloader.net"
-                return 0
-              fi
+            if [[ $rc -eq 0 || $rc -eq 9 ]]; then
+              echo "$json_out" > /tmp/tg_last_result.json
+              return $rc
             else
-              echo "telegramdownloader.net API returned no URL (response: $(echo "$response" | head -c 200))"
+              echo "Telegram error: $(cat /tmp/tg_err.log)"
+              return $rc
             fi
-            return 1
+          }
+
+          upload_to_telegram() {
+            local target="$1"
+            local file_path="$2"
+            local caption="$3"
+
+            if [[ ! -f "$file_path" || ! -s "$file_path" ]]; then
+              echo "Upload file missing/empty: $file_path"
+              return 12
+            fi
+
+            if [[ -n "$caption" ]]; then
+              python3 scripts/tg_upload.py "$target" "$file_path" --caption "$caption"
+            else
+              python3 scripts/tg_upload.py "$target" "$file_path"
+            fi
+            return $?
           }
 
           split_large_file() {
@@ -218,102 +236,169 @@ jobs:
           echo "=============================="
 
           in_block=false
+          current_mode=""   # download or upload
           block_url=""
           block_filename=""
           block_path=""
           block_quality="720"
           block_audio_only=false
           block_playlist=false
+          block_target="me"
+          block_caption=""
 
           process_block() {
-            if [[ -z "$block_url" ]]; then return; fi
-            total_requested=$((total_requested + 1))
-            
-            local url_type=$(detect_url_type "$block_url")
-            local final_path=$(get_final_path "$url_type" "$block_path")
-            mkdir -p "$final_path"
+            if [[ -z "$current_mode" ]]; then return; fi
 
-            local output_file=""
+            if [[ "$current_mode" == "download" ]]; then
+              [[ -z "$block_url" ]] && return
+              total_requested=$((total_requested + 1))
 
-            case "$url_type" in
-              youtube)
-                echo "Downloading with yt-dlp + Deno..."
-                touch /tmp/yt_download_marker
+              local url_type
+              url_type=$(detect_url_type "$block_url")
+              local final_path
+              final_path=$(get_final_path "$url_type" "$block_path")
+              mkdir -p "$final_path"
 
-                local yt_opts=()
-                if [[ "$block_filename" == *.mp3 ]]; then
-                  block_audio_only=true
-                fi
+              local output_file=""
 
-                if [[ "$block_audio_only" == true ]]; then
-                  yt_opts+=(--extract-audio --audio-format mp3)
-                elif [[ "$block_quality" != "best" ]]; then
-                  yt_opts+=(--format "bv*[height=$block_quality]+ba/b[height=$block_quality]/bv*+ba/b" --merge-output-format mp4)
-                fi
+              case "$url_type" in
+                youtube)
+                  echo "Downloading with yt-dlp + Deno..."
+                  touch /tmp/yt_download_marker
 
-                if [[ "$block_playlist" == true ]]; then
-                  yt_opts+=(--yes-playlist)
-                else
-                  yt_opts+=(--no-playlist)
-                fi
+                  local yt_opts=()
+                  if [[ "$block_filename" == *.mp3 ]]; then
+                    block_audio_only=true
+                  fi
 
-                if [[ -n "$block_filename" ]]; then
-                  local safe_name=$(sanitize_filename "${block_filename%.*}")
-                  yt_opts+=(-o "${final_path}${safe_name}.%(ext)s")
-                else
-                  yt_opts+=(-o "${final_path}%(title)s.%(ext)s")
-                fi
+                  if [[ "$block_audio_only" == true ]]; then
+                    yt_opts+=(--extract-audio --audio-format mp3)
+                  elif [[ "$block_quality" != "best" ]]; then
+                    yt_opts+=(--format "bv*[height=$block_quality]+ba/b[height=$block_quality]/bv*+ba/b" --merge-output-format mp4)
+                  fi
 
-                yt_opts+=("$block_url")
+                  if [[ "$block_playlist" == true ]]; then
+                    yt_opts+=(--yes-playlist)
+                  else
+                    yt_opts+=(--no-playlist)
+                  fi
 
-                if [[ -f "$HOME/.cache/yt-dlp/youtube/cookies.txt" ]]; then
-                  yt_opts+=(--cookies "$HOME/.cache/yt-dlp/youtube/cookies.txt")
-                fi
+                  if [[ -n "$block_filename" ]]; then
+                    local safe_name
+                    safe_name=$(sanitize_filename "${block_filename%.*}")
+                    yt_opts+=(-o "${final_path}${safe_name}.%(ext)s")
+                  else
+                    yt_opts+=(-o "${final_path}%(title)s.%(ext)s")
+                  fi
 
-                if yt-dlp --no-progress --js-runtime deno "${yt_opts[@]}"; then
-                  output_file=$(find "$final_path" -maxdepth 1 -type f -newer /tmp/yt_download_marker 2>/dev/null | head -n1)
-                  if [[ -n "$output_file" ]]; then
-                    log_ok "YouTube download succeeded: $block_url"
+                  yt_opts+=("$block_url")
+
+                  if [[ -f "$HOME/.cache/yt-dlp/youtube/cookies.txt" ]]; then
+                    yt_opts+=(--cookies "$HOME/.cache/yt-dlp/youtube/cookies.txt")
+                  fi
+
+                  if yt-dlp --no-progress --js-runtime deno "${yt_opts[@]}"; then
+                    output_file=$(find "$final_path" -maxdepth 1 -type f -newer /tmp/yt_download_marker 2>/dev/null | head -n1)
+                    if [[ -n "$output_file" ]]; then
+                      log_ok "YouTube download succeeded: $block_url"
+                      split_large_file "$output_file"
+                    else
+                      log_fail "YouTube download succeeded but file not found"
+                    fi
+                  else
+                    log_fail "YouTube download failed: $block_url"
+                  fi
+                  ;;
+                telegram)
+                  local safe_name
+                  safe_name=$(sanitize_filename "${block_filename:-telegram_$(date +%s)}")
+                  if download_telegram "$block_url" "$final_path" "${safe_name%.*}"; then
+                    mapfile -t tg_files < <(jq -r '.files[]?' /tmp/tg_last_result.json 2>/dev/null)
+                    if [[ ${#tg_files[@]} -gt 0 ]]; then
+                      for f in "${tg_files[@]}"; do
+                        split_large_file "$f"
+                      done
+                    fi
+                    log_ok "Telegram download succeeded"
+                  else
+                    rc=$?
+                    if [[ $rc -eq 9 ]]; then
+                      ext_url=$(jq -r '.external_url // empty' /tmp/tg_last_result.json 2>/dev/null)
+                      if [[ -n "$ext_url" ]]; then
+                        local out_file="${final_path}${safe_name}"
+                        if download_general "$ext_url" "$out_file"; then
+                          split_large_file "$out_file"
+                          log_ok "Telegram webpage external media downloaded"
+                        else
+                          log_fail "Telegram webpage external URL download failed"
+                        fi
+                      else
+                        log_fail "Telegram message has webpage preview only (no downloadable Telegram media)"
+                      fi
+                    else
+                      log_fail "Telegram download failed (code=$rc)"
+                    fi
+                  fi
+                  ;;
+                general)
+                  if [[ -z "$block_filename" ]]; then block_filename=$(basename "${block_url%%\?*}"); fi
+                  output_file="${final_path}$(sanitize_filename "$block_filename")"
+                  if download_general "$block_url" "$output_file"; then
+                    log_ok "General download succeeded"
                     split_large_file "$output_file"
                   else
-                    log_fail "YouTube download succeeded but file not found"
+                    log_fail "General download failed"
                   fi
+                  ;;
+              esac
+
+            elif [[ "$current_mode" == "upload" ]]; then
+              [[ -z "$block_url" ]] && return
+              total_requested=$((total_requested + 1))
+
+              local filename
+              filename=$(sanitize_filename "${block_filename:-$(basename "${block_url%%\?*}")}")
+              local workdir="downloads/upload_queue/"
+              mkdir -p "$workdir"
+              local local_file="${workdir}${filename}"
+
+              if download_general "$block_url" "$local_file"; then
+                if upload_to_telegram "${block_target:-me}" "$local_file" "$block_caption"; then
+                  log_ok "Upload succeeded to ${block_target:-me}"
                 else
-                  log_fail "YouTube download failed: $block_url"
+                  log_fail "Upload failed to ${block_target:-me}"
                 fi
-                ;;
-              telegram)
-                local safe_name=$(sanitize_filename "${block_filename:-telegram_$(date +%s).file}")
-                output_file="${final_path}${safe_name}"
-                if download_telegram "$block_url" "$output_file"; then
-                  log_ok "Telegram download succeeded"
-                  split_large_file "$output_file"
-                else
-                  log_fail "Telegram download failed"
-                fi
-                ;;
-              general)
-                if [[ -z "$block_filename" ]]; then block_filename=$(basename "${block_url%%\?*}"); fi
-                output_file="${final_path}$(sanitize_filename "$block_filename")"
-                if download_general "$block_url" "$output_file"; then
-                  log_ok "General download succeeded"
-                  split_large_file "$output_file"
-                else
-                  log_fail "General download failed"
-                fi
-                ;;
-            esac
+              else
+                log_fail "Upload source download failed: $block_url"
+              fi
+            fi
           }
 
           while IFS= read -r line; do
             line="${line//$'\r'/}"
+
             if echo "$line" | grep -q '^download:'; then
               [[ "$in_block" == true ]] && process_block
               in_block=true
-              block_url=""; block_filename=""; block_path=""; block_quality="720"; block_audio_only=false; block_playlist=false
+              current_mode="download"
+              block_url=""; block_filename=""; block_path=""
+              block_quality="720"; block_audio_only=false; block_playlist=false
+              block_target="me"; block_caption=""
               continue
             fi
+
+            if echo "$line" | grep -q '^upload:'; then
+              [[ "$in_block" == true ]] && process_block
+              in_block=true
+              current_mode="upload"
+              block_url=""; block_filename=""; block_path=""
+              block_quality="720"; block_audio_only=false; block_playlist=false
+              block_target="me"; block_caption=""
+              continue
+            fi
+
             [[ "$in_block" != true || -z "$line" ]] && continue
+
             if echo "$line" | grep -q '|'; then
               block_url=$(echo "$line" | cut -d'|' -f1 | xargs)
               block_filename=$(echo "$line" | cut -d'|' -f2 | xargs)
@@ -325,10 +410,15 @@ jobs:
               block_audio_only=true
             elif echo "$line" | grep -q '^playlist:[[:space:]]*yes'; then
               block_playlist=true
+            elif echo "$line" | grep -q '^target:'; then
+              block_target=$(echo "$line" | sed 's/^target:[[:space:]]*//' | xargs)
+            elif echo "$line" | grep -q '^caption:'; then
+              block_caption=$(echo "$line" | sed 's/^caption:[[:space:]]*//')
             elif [[ -z "$block_url" ]] && echo "$line" | grep -qE '^https?://'; then
               block_url=$(echo "$line" | xargs)
             fi
           done <<< "$COMMIT_MSG"
+
           [[ "$in_block" == true ]] && process_block
 
           echo "all_failed=$([[ $total_failed -gt 0 && $total_success -eq 0 ]] && echo 'true' || echo 'false')" > "$STATUS_FILE"
@@ -340,11 +430,11 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if [[ -n $(git status -s downloads/) ]]; then
             git add downloads/
-            git commit -m "Add downloaded files [skip ci]"
+            git commit -m "Add downloaded/upload artifacts [skip ci]"
             git push
           fi
 
-      - name: Check if all downloads failed
+      - name: Check if all operations failed
         if: always()
         run: |
           if grep -q '^all_failed=true$' /tmp/unified-download-status 2>/dev/null; then
