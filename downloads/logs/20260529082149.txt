@@ -1,0 +1,8 @@
+=== Parsing commit message ===
+testing album download
+
+download:
+https://t.me/jannatkhah/2286?single | trip_album
+path: test/images/
+==============================
+OK: Telegram download succeeded
