@@ -66,7 +66,13 @@ upload-after: yes
 target: -1003963721258
 caption: AI council
 keep-on-repo: no
-
+## uploader complete metadata test 
+download:
+https://www.youtube.com/watch?v=qw4fDU18RcU 
+upload-after: yes 
+target: -1003963721258 
+caption: AI council 
+keep-on-repo: no
 
 ---
 download:
