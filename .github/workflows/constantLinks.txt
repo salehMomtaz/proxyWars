@@ -33,7 +33,14 @@ result: succeeded
 download:
 https://t.me/jannatkhah/2286?single | trip_album
 path: images/
-reault:
+result: succeeded
+
+ ## telegram upload
+upload:
+https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-riscv64.img
+target: -1003963721258
+caption: uploaded by github action
+result:
 
 ---
 download:
