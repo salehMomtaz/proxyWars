@@ -1,4 +1,5 @@
 name: Unified Download Workflow
+
 on:
   push:
     branches:
@@ -245,6 +246,8 @@ jobs:
           block_playlist=false
           block_target="me"
           block_caption=""
+          block_upload_after=false
+          block_keep_on_repo=true
 
           process_block() {
             if [[ -z "$current_mode" ]]; then return; fi
@@ -260,6 +263,7 @@ jobs:
               mkdir -p "$final_path"
 
               local output_file=""
+              local uploaded_after=false
 
               case "$url_type" in
                 youtube)
@@ -301,7 +305,21 @@ jobs:
                     output_file=$(find "$final_path" -maxdepth 1 -type f -newer /tmp/yt_download_marker 2>/dev/null | head -n1)
                     if [[ -n "$output_file" ]]; then
                       log_ok "YouTube download succeeded: $block_url"
-                      split_large_file "$output_file"
+
+                      if [[ "$block_upload_after" == true ]]; then
+                        if upload_to_telegram "${block_target:-me}" "$output_file" "$block_caption"; then
+                          uploaded_after=true
+                          log_ok "Post-download upload succeeded to ${block_target:-me}"
+                        else
+                          log_fail "Post-download upload failed to ${block_target:-me}"
+                        fi
+                      fi
+
+                      if [[ "$block_keep_on_repo" == true ]]; then
+                        split_large_file "$output_file"
+                      else
+                        rm -f "$output_file" || true
+                      fi
                     else
                       log_fail "YouTube download succeeded but file not found"
                     fi
@@ -314,12 +332,35 @@ jobs:
                   safe_name=$(sanitize_filename "${block_filename:-telegram_$(date +%s)}")
                   if download_telegram "$block_url" "$final_path" "${safe_name%.*}"; then
                     mapfile -t tg_files < <(jq -r '.files[]?' /tmp/tg_last_result.json 2>/dev/null)
+
                     if [[ ${#tg_files[@]} -gt 0 ]]; then
-                      for f in "${tg_files[@]}"; do
-                        split_large_file "$f"
-                      done
+                      log_ok "Telegram download succeeded"
+
+                      if [[ "$block_upload_after" == true ]]; then
+                        local all_up_ok=true
+                        for f in "${tg_files[@]}"; do
+                          if upload_to_telegram "${block_target:-me}" "$f" "$block_caption"; then
+                            log_ok "Post-download upload succeeded to ${block_target:-me}: $f"
+                          else
+                            all_up_ok=false
+                            log_fail "Post-download upload failed to ${block_target:-me}: $f"
+                          fi
+                        done
+                        [[ "$all_up_ok" == true ]] && uploaded_after=true
+                      fi
+
+                      if [[ "$block_keep_on_repo" == true ]]; then
+                        for f in "${tg_files[@]}"; do
+                          split_large_file "$f"
+                        done
+                      else
+                        for f in "${tg_files[@]}"; do
+                          rm -f "$f" || true
+                        done
+                      fi
+                    else
+                      log_fail "Telegram download returned no files"
                     fi
-                    log_ok "Telegram download succeeded"
                   else
                     rc=$?
                     if [[ $rc -eq 9 ]]; then
@@ -327,8 +368,22 @@ jobs:
                       if [[ -n "$ext_url" ]]; then
                         local out_file="${final_path}${safe_name}"
                         if download_general "$ext_url" "$out_file"; then
-                          split_large_file "$out_file"
                           log_ok "Telegram webpage external media downloaded"
+
+                          if [[ "$block_upload_after" == true ]]; then
+                            if upload_to_telegram "${block_target:-me}" "$out_file" "$block_caption"; then
+                              uploaded_after=true
+                              log_ok "Post-download upload succeeded to ${block_target:-me}"
+                            else
+                              log_fail "Post-download upload failed to ${block_target:-me}"
+                            fi
+                          fi
+
+                          if [[ "$block_keep_on_repo" == true ]]; then
+                            split_large_file "$out_file"
+                          else
+                            rm -f "$out_file" || true
+                          fi
                         else
                           log_fail "Telegram webpage external URL download failed"
                         fi
@@ -345,7 +400,21 @@ jobs:
                   output_file="${final_path}$(sanitize_filename "$block_filename")"
                   if download_general "$block_url" "$output_file"; then
                     log_ok "General download succeeded"
-                    split_large_file "$output_file"
+
+                    if [[ "$block_upload_after" == true ]]; then
+                      if upload_to_telegram "${block_target:-me}" "$output_file" "$block_caption"; then
+                        uploaded_after=true
+                        log_ok "Post-download upload succeeded to ${block_target:-me}"
+                      else
+                        log_fail "Post-download upload failed to ${block_target:-me}"
+                      fi
+                    fi
+
+                    if [[ "$block_keep_on_repo" == true ]]; then
+                      split_large_file "$output_file"
+                    else
+                      rm -f "$output_file" || true
+                    fi
                   else
                     log_fail "General download failed"
                   fi
@@ -368,6 +437,8 @@ jobs:
                 else
                   log_fail "Upload failed to ${block_target:-me}"
                 fi
+                # Always remove temp file after upload attempt
+                rm -f "$local_file" || true
               else
                 log_fail "Upload source download failed: $block_url"
               fi
@@ -384,6 +455,8 @@ jobs:
               block_url=""; block_filename=""; block_path=""
               block_quality="720"; block_audio_only=false; block_playlist=false
               block_target="me"; block_caption=""
+              block_upload_after=false
+              block_keep_on_repo=true
               continue
             fi
 
@@ -394,6 +467,8 @@ jobs:
               block_url=""; block_filename=""; block_path=""
               block_quality="720"; block_audio_only=false; block_playlist=false
               block_target="me"; block_caption=""
+              block_upload_after=false
+              block_keep_on_repo=true
               continue
             fi
 
@@ -414,12 +489,19 @@ jobs:
               block_target=$(echo "$line" | sed 's/^target:[[:space:]]*//' | xargs)
             elif echo "$line" | grep -q '^caption:'; then
               block_caption=$(echo "$line" | sed 's/^caption:[[:space:]]*//')
+            elif echo "$line" | grep -q '^upload-after:[[:space:]]*yes'; then
+              block_upload_after=true
+            elif echo "$line" | grep -q '^keep-on-repo:[[:space:]]*no'; then
+              block_keep_on_repo=false
             elif [[ -z "$block_url" ]] && echo "$line" | grep -qE '^https?://'; then
               block_url=$(echo "$line" | xargs)
             fi
           done <<< "$COMMIT_MSG"
 
           [[ "$in_block" == true ]] && process_block
+
+          # Clean temporary upload queue no matter what
+          rm -rf downloads/upload_queue || true
 
           echo "all_failed=$([[ $total_failed -gt 0 && $total_success -eq 0 ]] && echo 'true' || echo 'false')" > "$STATUS_FILE"
 
@@ -428,6 +510,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Never commit temporary upload queue
+          rm -rf downloads/upload_queue || true
+
           if [[ -n $(git status -s downloads/) ]]; then
             git add downloads/
             git commit -m "Add downloaded/upload artifacts [skip ci]"
