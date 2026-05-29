@@ -23,9 +23,17 @@ If work correctly then we will use self hosted action runners for lesser process
 ---
 Testing telegram download
 single video
+## telegram single video download
+download:
+https://t.me/mvaisipodcasts/3488 | podcast_video
+path: test/
+result: succeeded
 
-
-
+## telegram album download
+download:
+https://t.me/jannatkhah/2286?single | trip_album
+path: images/
+reault:
 
 ---
 download:
