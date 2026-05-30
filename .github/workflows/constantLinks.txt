@@ -85,6 +85,29 @@ upload-bale
 no-keep
 caption: ارسال به هر دو، بدون نگه‌داری
 ```
+result: success
+
+## multiple downloads test
+```
+download:
+https://youtu.be/jYUZAF3ePFE
+upload-telegram
+upload-bale
+no-keep
+caption: ارسال به هر دو، بدون نگه‌داری
+download:
+https://youtu.be/P7qQy1Bf1X4
+upload-telegram
+upload-bale
+no-keep
+caption: ارسال به هر دو، بدون نگه‌داری
+download:
+https://youtu.be/1A1Nm2kAW6c
+upload-telegram
+upload-bale
+no-keep
+caption: ارسال به هر دو، بدون نگه‌داری
+```
 result:
 
 ---
