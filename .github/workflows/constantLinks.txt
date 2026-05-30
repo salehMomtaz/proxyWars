@@ -73,6 +73,19 @@ upload-after: yes
 target: -1003963721258 
 caption: AI council 
 keep-on-repo: no
+result: absolute success
+---
+
+## bale uploader test
+```
+download:
+https://www.youtube.com/watch?v=ozhHrzOXZkI
+upload-telegram
+upload-bale
+no-keep
+caption: ارسال به هر دو، بدون نگه‌داری
+```
+result:
 
 ---
 download:
