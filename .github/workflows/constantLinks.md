@@ -108,7 +108,25 @@ upload-bale
 no-keep
 caption: ارسال به هر دو، بدون نگه‌داری
 ```
-result:
+result: success on the first two
+
+## teat two remaining
+
+reason is either size or no blank line between them
+
+download:
+https://youtu.be/P7qQy1Bf1X4
+upload-telegram
+upload-bale
+no-keep
+caption: ارسال به هر دو، بدون نگه‌داری
+
+download:
+https://youtu.be/1A1Nm2kAW6c
+upload-telegram
+upload-bale
+no-keep
+caption: ارسال به هر دو، بدون نگه‌داری
 
 ---
 download:
