@@ -2,14 +2,12 @@ name: Unified Download Workflow
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   download:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, 'download:') || contains(github.event.head_commit.message, 'upload:')
-
+    if: contains(github.event.head_commit.message, 'download:')
     permissions:
       contents: write
 
@@ -25,9 +23,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y aria2 curl wget zip jq ffmpeg python3 python3-pip
           python3 -m pip install --upgrade pip
-          python3 -m pip install telethon
-
-          # Install yt-dlp nightly
+          python3 -m pip install telethon requests
           sudo curl -L -o /usr/local/bin/yt-dlp "https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest/download/yt-dlp_linux"
           sudo chmod a+rx /usr/local/bin/yt-dlp
 
@@ -43,24 +39,25 @@ jobs:
           if [[ -n "$YT_COOKIES" ]]; then
             mkdir -p ~/.cache/yt-dlp/youtube
             echo "$YT_COOKIES" > ~/.cache/yt-dlp/youtube/cookies.txt
-            echo "Cookies installed ($(wc -l < ~/.cache/yt-dlp/youtube/cookies.txt) lines)"
-          else
-            echo "No YOUTUBE_COOKIES secret set — YouTube may be blocked by bot detection"
           fi
 
-      - name: Ensure Telegram scripts are executable
+      - name: Ensure scripts are executable
         run: |
-          chmod +x .github/workflows/scripts/tg_download.py .github/workflows/scripts/tg_upload.py
+          chmod +x .github/workflows/scripts/tg_download.py \
+                   .github/workflows/scripts/tg_upload.py \
+                   .github/workflows/scripts/bale_upload.py
 
-      - name: Parse commit message and process download/upload
+      - name: Parse commit message and process
         env:
           TG_API_ID: ${{ secrets.TG_API_ID }}
           TG_API_HASH: ${{ secrets.TG_API_HASH }}
           TG_STRING_SESSION: ${{ secrets.TG_STRING_SESSION }}
+          BALE_BOT_TOKEN: ${{ secrets.BALE_BOT_TOKEN }}
+          BALE_OWNER_CHAT_ID: ${{ secrets.BALE_OWNER_CHAT_ID }}
         run: |
           set +e
-
           COMMIT_MSG=$(git log -1 --pretty=%B)
+
           LOG_DIR="downloads/logs"
           mkdir -p "$LOG_DIR"
           LOG_FILE="$LOG_DIR/$(date -u +%Y%m%d%H%M%S).txt"
@@ -73,22 +70,15 @@ jobs:
           total_success=0
           total_failed=0
 
-          log_ok() {
-            local msg="$1"
-            total_success=$((total_success + 1))
-            echo "OK: $msg"
-          }
+          BALE_TARGET="$BALE_OWNER_CHAT_ID"
 
-          log_fail() {
-            local msg="$1"
-            total_failed=$((total_failed + 1))
-            echo "FAIL: $msg"
-          }
+          log_ok()   { total_success=$((total_success+1)); echo "OK: $1"; }
+          log_fail() { total_failed=$((total_failed+1)); echo "FAIL: $1"; }
 
           sanitize_filename() {
             local name="$1"
             name=$(basename "$name")
-            name=$(printf '%s' "$name" | sed 's/[^a-zA-Z0-9._-]/_/g; s/__*/_/g; s/^_//;s/_$//')
+            name=$(printf '%s' "$name" | sed 's/[^a-zA-Z0-9._-]/_/g; s/__*/_/g; s/^_//; s/_$//')
             name=$(printf '%s' "$name" | tr ' ' '_')
             [[ -n "$name" ]] && printf '%s\n' "$name" || printf 'download_%s.file\n' "$(date +%s)"
           }
@@ -97,128 +87,8 @@ jobs:
             local path="$1"
             path="${path#/}"
             path=$(printf '%s' "$path" | sed 's#/\.\.##g; s#/\.\./##g; s#//*#/#g')
-            if [[ -n "$path" && "$path" != */ ]]; then
-              path="${path}/"
-            fi
+            [[ -n "$path" && "$path" != */ ]] && path="${path}/"
             printf '%s' "$path"
-          }
-
-          get_base_path() {
-            case "$1" in
-              youtube) echo "downloads/youtube/" ;;
-              telegram) echo "downloads/telegram/" ;;
-              *) echo "downloads/general/" ;;
-            esac
-          }
-
-          get_final_path() {
-            local url_type="$1"
-            local user_path="$2"
-            local base
-            base=$(get_base_path "$url_type")
-            if [[ -n "$user_path" ]]; then
-              echo "${base}${user_path}"
-            else
-              echo "${base}"
-            fi
-          }
-
-          file_is_usable() {
-            local file="$1"
-            [[ -s "$file" ]] || return 1
-            if head -c 512 "$file" | grep -qiE '<html|<!doctype html|<head>'; then
-              return 1
-            fi
-            return 0
-          }
-
-          download_general() {
-            local url="$1"
-            local output="$2"
-            mkdir -p "$(dirname "$output")"
-            rm -f "$output"
-
-            echo "Trying aria2c..."
-            if aria2c --auto-file-renaming=false --allow-overwrite=true --file-allocation=none -x 16 -s 16 -k 1M -d "$(dirname "$output")" -o "$(basename "$output")" "$url" && file_is_usable "$output"; then
-              return 0
-            fi
-
-            echo "Trying curl..."
-            rm -f "$output"
-            if curl -fL --retry 2 --connect-timeout 30 -o "$output" "$url" && file_is_usable "$output"; then
-              return 0
-            fi
-
-            echo "Trying wget..."
-            rm -f "$output"
-            if wget --tries=2 --timeout=30 -O "$output" "$url" && file_is_usable "$output"; then
-              return 0
-            fi
-
-            rm -f "$output"
-            return 1
-          }
-
-          download_telegram() {
-            local url="$1"
-            local out_dir="$2"
-            local base_name="$3"
-
-            mkdir -p "$out_dir"
-            local json_out
-            json_out=$(python3 .github/workflows/scripts/tg_download.py "$url" "$out_dir" "$base_name" 2>/tmp/tg_err.log)
-            local rc=$?
-
-            if [[ $rc -eq 0 || $rc -eq 9 ]]; then
-              echo "$json_out" > /tmp/tg_last_result.json
-              return $rc
-            else
-              echo "Telegram error: $(cat /tmp/tg_err.log)"
-              return $rc
-            fi
-          }
-
-          upload_to_telegram() {
-            local target="$1"
-            local file_path="$2"
-            local caption="$3"
-
-            if [[ ! -f "$file_path" || ! -s "$file_path" ]]; then
-              echo "Upload file missing/empty: $file_path"
-              return 12
-            fi
-
-            if [[ -n "$caption" ]]; then
-              python3 .github/workflows/scripts/tg_upload.py "$target" "$file_path" --caption "$caption"
-            else
-              python3 .github/workflows/scripts/tg_upload.py "$target" "$file_path"
-            fi
-            return $?
-          }
-
-          split_large_file() {
-            local filepath="$1"
-            [[ -f "$filepath" ]] || return 0
-
-            local filesize
-            filesize=$(stat -c%s "$filepath" 2>/dev/null)
-            local max_size=$((90 * 1024 * 1024))
-
-            if [[ "$filesize" -le "$max_size" ]]; then
-              return 0
-            fi
-
-            echo "File is $((${filesize}/1024/1024))MB, splitting into 90MB parts..."
-            local dir=$(dirname "$filepath")
-            local full_name=$(basename "$filepath")
-            local name_no_ext="${full_name%.*}"
-            local split_dir="${dir}/${name_no_ext}"
-            mkdir -p "$split_dir"
-
-            zip -0 -s 90m -j "${split_dir}/${full_name}.zip" "$filepath"
-            rm -f "$filepath"
-
-            echo "Split into parts in: ${split_dir}/"
           }
 
           detect_url_type() {
@@ -232,12 +102,90 @@ jobs:
             fi
           }
 
-          echo "=== Parsing commit message ==="
-          echo "$COMMIT_MSG"
-          echo "=============================="
+          get_base_path() {
+            case "$1" in
+              youtube) echo "downloads/youtube/" ;;
+              telegram) echo "downloads/telegram/" ;;
+              *) echo "downloads/general/" ;;
+            esac
+          }
+
+          file_is_usable() {
+            local file="$1"
+            [[ -s "$file" ]] || return 1
+            head -c 512 "$file" | grep -qiE '<html|<!doctype html|<head>' && return 1
+            return 0
+          }
+
+          download_general() {
+            local url="$1"
+            local output="$2"
+            mkdir -p "$(dirname "$output")"
+            rm -f "$output"
+
+            aria2c --auto-file-renaming=false --allow-overwrite=true --file-allocation=none -x 16 -s 16 -k 1M -d "$(dirname "$output")" -o "$(basename "$output")" "$url" && file_is_usable "$output" && return 0
+            rm -f "$output"
+            curl -fL --retry 2 --connect-timeout 30 -o "$output" "$url" && file_is_usable "$output" && return 0
+            rm -f "$output"
+            wget --tries=2 --timeout=30 -O "$output" "$url" && file_is_usable "$output" && return 0
+            rm -f "$output"
+            return 1
+          }
+
+          download_telegram() {
+            local url="$1"; local out_dir="$2"; local base_name="$3"
+            mkdir -p "$out_dir"
+            local json_out
+            json_out=$(python3 .github/workflows/scripts/tg_download.py "$url" "$out_dir" "$base_name" 2>/tmp/tg_err.log)
+            local rc=$?
+            if [[ $rc -eq 0 || $rc -eq 9 ]]; then
+              echo "$json_out" > /tmp/tg_last_result.json
+              return $rc
+            fi
+            echo "Telegram error: $(cat /tmp/tg_err.log)"
+            return $rc
+          }
+
+          upload_to_telegram() {
+            local target="$1"; local file_path="$2"; local caption="$3"
+            [[ ! -f "$file_path" || ! -s "$file_path" ]] && return 12
+            if [[ -n "$caption" ]]; then
+              python3 .github/workflows/scripts/tg_upload.py "$target" "$file_path" --caption "$caption"
+            else
+              python3 .github/workflows/scripts/tg_upload.py "$target" "$file_path"
+            fi
+          }
+
+          upload_to_bale() {
+            local file_path="$1"; local caption="$2"
+            [[ ! -f "$file_path" || ! -s "$file_path" ]] && return 22
+            [[ -z "$BALE_BOT_TOKEN" ]] && return 23
+            [[ -z "$BALE_TARGET" ]] && return 24
+            if [[ -n "$caption" ]]; then
+              python3 .github/workflows/scripts/bale_upload.py "$BALE_TARGET" "$file_path" --caption "$caption"
+            else
+              python3 .github/workflows/scripts/bale_upload.py "$BALE_TARGET" "$file_path"
+            fi
+          }
+
+          split_large_file() {
+            local filepath="$1"
+            [[ -f "$filepath" ]] || return 0
+            local filesize; filesize=$(stat -c%s "$filepath" 2>/dev/null)
+            local max_size=$((90 * 1024 * 1024))
+            [[ "$filesize" -le "$max_size" ]] && return 0
+
+            local dir full_name name_no_ext split_dir
+            dir=$(dirname "$filepath")
+            full_name=$(basename "$filepath")
+            name_no_ext="${full_name%.*}"
+            split_dir="${dir}/${name_no_ext}"
+            mkdir -p "$split_dir"
+            zip -0 -s 90m -j "${split_dir}/${full_name}.zip" "$filepath"
+            rm -f "$filepath"
+          }
 
           in_block=false
-          current_mode=""   # download or upload
           block_url=""
           block_filename=""
           block_path=""
@@ -246,229 +194,123 @@ jobs:
           block_playlist=false
           block_target="me"
           block_caption=""
-          block_upload_after=false
-          block_keep_on_repo=true
+          block_upload_telegram=false
+          block_upload_bale=false
+          block_no_keep=false
 
           process_block() {
-            if [[ -z "$current_mode" ]]; then return; fi
+            [[ -z "$block_url" ]] && return
+            total_requested=$((total_requested + 1))
 
-            if [[ "$current_mode" == "download" ]]; then
-              [[ -z "$block_url" ]] && return
-              total_requested=$((total_requested + 1))
+            local url_type base_path final_path output_file safe_name
+            url_type=$(detect_url_type "$block_url")
+            base_path=$(get_base_path "$url_type")
+            final_path="${base_path}${block_path}"
+            mkdir -p "$final_path"
 
-              local url_type
-              url_type=$(detect_url_type "$block_url")
-              local final_path
-              final_path=$(get_final_path "$url_type" "$block_path")
-              mkdir -p "$final_path"
+            if [[ "$url_type" == "youtube" ]]; then
+              touch /tmp/yt_download_marker
+              local yt_opts=()
 
-              local output_file=""
-              local uploaded_after=false
+              [[ "$block_filename" == *.mp3 ]] && block_audio_only=true
+              [[ "$block_audio_only" == true ]] && yt_opts+=(--extract-audio --audio-format mp3)
+              [[ "$block_audio_only" != true && "$block_quality" != "best" ]] && yt_opts+=(--format "bv*[height=$block_quality]+ba/b[height=$block_quality]/bv*+ba/b" --merge-output-format mp4)
+              [[ "$block_playlist" == true ]] && yt_opts+=(--yes-playlist) || yt_opts+=(--no-playlist)
 
-              case "$url_type" in
-                youtube)
-                  echo "Downloading with yt-dlp + Deno..."
-                  touch /tmp/yt_download_marker
-
-                  local yt_opts=()
-                  if [[ "$block_filename" == *.mp3 ]]; then
-                    block_audio_only=true
-                  fi
-
-                  if [[ "$block_audio_only" == true ]]; then
-                    yt_opts+=(--extract-audio --audio-format mp3)
-                  elif [[ "$block_quality" != "best" ]]; then
-                    yt_opts+=(--format "bv*[height=$block_quality]+ba/b[height=$block_quality]/bv*+ba/b" --merge-output-format mp4)
-                  fi
-
-                  if [[ "$block_playlist" == true ]]; then
-                    yt_opts+=(--yes-playlist)
-                  else
-                    yt_opts+=(--no-playlist)
-                  fi
-
-                  if [[ -n "$block_filename" ]]; then
-                    local safe_name
-                    safe_name=$(sanitize_filename "${block_filename%.*}")
-                    yt_opts+=(-o "${final_path}${safe_name}.%(ext)s")
-                  else
-                    yt_opts+=(-o "${final_path}%(title)s.%(ext)s")
-                  fi
-
-                  yt_opts+=("$block_url")
-
-                  if [[ -f "$HOME/.cache/yt-dlp/youtube/cookies.txt" ]]; then
-                    yt_opts+=(--cookies "$HOME/.cache/yt-dlp/youtube/cookies.txt")
-                  fi
-
-                  if yt-dlp --no-progress --js-runtime deno "${yt_opts[@]}"; then
-                    output_file=$(find "$final_path" -maxdepth 1 -type f -newer /tmp/yt_download_marker 2>/dev/null | head -n1)
-                    if [[ -n "$output_file" ]]; then
-                      log_ok "YouTube download succeeded: $block_url"
-
-                      if [[ "$block_upload_after" == true ]]; then
-                        if upload_to_telegram "${block_target:-me}" "$output_file" "$block_caption"; then
-                          uploaded_after=true
-                          log_ok "Post-download upload succeeded to ${block_target:-me}"
-                        else
-                          log_fail "Post-download upload failed to ${block_target:-me}"
-                        fi
-                      fi
-
-                      if [[ "$block_keep_on_repo" == true ]]; then
-                        split_large_file "$output_file"
-                      else
-                        rm -f "$output_file" || true
-                      fi
-                    else
-                      log_fail "YouTube download succeeded but file not found"
-                    fi
-                  else
-                    log_fail "YouTube download failed: $block_url"
-                  fi
-                  ;;
-                telegram)
-                  local safe_name
-                  safe_name=$(sanitize_filename "${block_filename:-telegram_$(date +%s)}")
-                  if download_telegram "$block_url" "$final_path" "${safe_name%.*}"; then
-                    mapfile -t tg_files < <(jq -r '.files[]?' /tmp/tg_last_result.json 2>/dev/null)
-
-                    if [[ ${#tg_files[@]} -gt 0 ]]; then
-                      log_ok "Telegram download succeeded"
-
-                      if [[ "$block_upload_after" == true ]]; then
-                        local all_up_ok=true
-                        for f in "${tg_files[@]}"; do
-                          if upload_to_telegram "${block_target:-me}" "$f" "$block_caption"; then
-                            log_ok "Post-download upload succeeded to ${block_target:-me}: $f"
-                          else
-                            all_up_ok=false
-                            log_fail "Post-download upload failed to ${block_target:-me}: $f"
-                          fi
-                        done
-                        [[ "$all_up_ok" == true ]] && uploaded_after=true
-                      fi
-
-                      if [[ "$block_keep_on_repo" == true ]]; then
-                        for f in "${tg_files[@]}"; do
-                          split_large_file "$f"
-                        done
-                      else
-                        for f in "${tg_files[@]}"; do
-                          rm -f "$f" || true
-                        done
-                      fi
-                    else
-                      log_fail "Telegram download returned no files"
-                    fi
-                  else
-                    rc=$?
-                    if [[ $rc -eq 9 ]]; then
-                      ext_url=$(jq -r '.external_url // empty' /tmp/tg_last_result.json 2>/dev/null)
-                      if [[ -n "$ext_url" ]]; then
-                        local out_file="${final_path}${safe_name}"
-                        if download_general "$ext_url" "$out_file"; then
-                          log_ok "Telegram webpage external media downloaded"
-
-                          if [[ "$block_upload_after" == true ]]; then
-                            if upload_to_telegram "${block_target:-me}" "$out_file" "$block_caption"; then
-                              uploaded_after=true
-                              log_ok "Post-download upload succeeded to ${block_target:-me}"
-                            else
-                              log_fail "Post-download upload failed to ${block_target:-me}"
-                            fi
-                          fi
-
-                          if [[ "$block_keep_on_repo" == true ]]; then
-                            split_large_file "$out_file"
-                          else
-                            rm -f "$out_file" || true
-                          fi
-                        else
-                          log_fail "Telegram webpage external URL download failed"
-                        fi
-                      else
-                        log_fail "Telegram message has webpage preview only (no downloadable Telegram media)"
-                      fi
-                    else
-                      log_fail "Telegram download failed (code=$rc)"
-                    fi
-                  fi
-                  ;;
-                general)
-                  if [[ -z "$block_filename" ]]; then block_filename=$(basename "${block_url%%\?*}"); fi
-                  output_file="${final_path}$(sanitize_filename "$block_filename")"
-                  if download_general "$block_url" "$output_file"; then
-                    log_ok "General download succeeded"
-
-                    if [[ "$block_upload_after" == true ]]; then
-                      if upload_to_telegram "${block_target:-me}" "$output_file" "$block_caption"; then
-                        uploaded_after=true
-                        log_ok "Post-download upload succeeded to ${block_target:-me}"
-                      else
-                        log_fail "Post-download upload failed to ${block_target:-me}"
-                      fi
-                    fi
-
-                    if [[ "$block_keep_on_repo" == true ]]; then
-                      split_large_file "$output_file"
-                    else
-                      rm -f "$output_file" || true
-                    fi
-                  else
-                    log_fail "General download failed"
-                  fi
-                  ;;
-              esac
-
-            elif [[ "$current_mode" == "upload" ]]; then
-              [[ -z "$block_url" ]] && return
-              total_requested=$((total_requested + 1))
-
-              local filename
-              filename=$(sanitize_filename "${block_filename:-$(basename "${block_url%%\?*}")}")
-              local workdir="downloads/upload_queue/"
-              mkdir -p "$workdir"
-              local local_file="${workdir}${filename}"
-
-              if download_general "$block_url" "$local_file"; then
-                if upload_to_telegram "${block_target:-me}" "$local_file" "$block_caption"; then
-                  log_ok "Upload succeeded to ${block_target:-me}"
-                else
-                  log_fail "Upload failed to ${block_target:-me}"
-                fi
-                # Always remove temp file after upload attempt
-                rm -f "$local_file" || true
+              if [[ -n "$block_filename" ]]; then
+                safe_name=$(sanitize_filename "${block_filename%.*}")
+                yt_opts+=(-o "${final_path}${safe_name}.%(ext)s")
               else
-                log_fail "Upload source download failed: $block_url"
+                yt_opts+=(-o "${final_path}%(title)s.%(ext)s")
               fi
+
+              [[ -f "$HOME/.cache/yt-dlp/youtube/cookies.txt" ]] && yt_opts+=(--cookies "$HOME/.cache/yt-dlp/youtube/cookies.txt")
+              yt_opts+=("$block_url")
+
+              yt-dlp --no-progress --js-runtime deno "${yt_opts[@]}"
+              if [[ $? -ne 0 ]]; then log_fail "YouTube download failed"; return; fi
+
+              output_file=$(find "$final_path" -maxdepth 1 -type f -newer /tmp/yt_download_marker | head -n1)
+              [[ -z "$output_file" ]] && log_fail "YouTube output not found" && return
+
+            elif [[ "$url_type" == "telegram" ]]; then
+              safe_name=$(sanitize_filename "${block_filename:-telegram_$(date +%s)}")
+              download_telegram "$block_url" "$final_path" "${safe_name%.*}"
+              rc=$?
+
+              if [[ $rc -eq 0 ]]; then
+                mapfile -t tg_files < <(jq -r '.files[]?' /tmp/tg_last_result.json 2>/dev/null)
+                [[ ${#tg_files[@]} -eq 0 ]] && log_fail "Telegram returned no files" && return
+
+                for f in "${tg_files[@]}"; do
+                  if [[ "$block_upload_telegram" == true ]]; then
+                    upload_to_telegram "${block_target:-me}" "$f" "$block_caption" && log_ok "Uploaded to Telegram: $f" || log_fail "Upload to Telegram failed: $f"
+                  fi
+                  if [[ "$block_upload_bale" == true ]]; then
+                    upload_to_bale "$f" "$block_caption" && log_ok "Uploaded to Bale: $f" || log_fail "Upload to Bale failed: $f"
+                  fi
+
+                  if [[ "$block_no_keep" == true ]]; then
+                    rm -f "$f"
+                  else
+                    split_large_file "$f"
+                  fi
+                done
+
+                log_ok "Telegram download succeeded"
+                return
+              elif [[ $rc -eq 9 ]]; then
+                ext_url=$(jq -r '.external_url // empty' /tmp/tg_last_result.json 2>/dev/null)
+                [[ -z "$ext_url" ]] && log_fail "Telegram webpage-only without external_url" && return
+                output_file="${final_path}${safe_name}"
+                download_general "$ext_url" "$output_file" || { log_fail "External URL download failed"; return; }
+              else
+                log_fail "Telegram download failed (code=$rc)"
+                return
+              fi
+
+            else
+              [[ -z "$block_filename" ]] && block_filename=$(basename "${block_url%%\?*}")
+              output_file="${final_path}$(sanitize_filename "$block_filename")"
+              download_general "$block_url" "$output_file" || { log_fail "General download failed"; return; }
             fi
+
+            # Upload order: Telegram -> Bale
+            if [[ "$block_upload_telegram" == true ]]; then
+              upload_to_telegram "${block_target:-me}" "$output_file" "$block_caption" && log_ok "Uploaded to Telegram" || log_fail "Upload to Telegram failed"
+            fi
+            if [[ "$block_upload_bale" == true ]]; then
+              upload_to_bale "$output_file" "$block_caption" && log_ok "Uploaded to Bale" || log_fail "Upload to Bale failed"
+            fi
+
+            # Keep / no-keep
+            if [[ "$block_no_keep" == true ]]; then
+              rm -f "$output_file"
+            else
+              split_large_file "$output_file"
+            fi
+
+            log_ok "Download succeeded"
           }
 
           while IFS= read -r line; do
             line="${line//$'\r'/}"
+            line="$(echo "$line" | sed 's/[[:space:]]*$//')"
 
-            if echo "$line" | grep -q '^download:'; then
+            if echo "$line" | grep -q '^download:$'; then
               [[ "$in_block" == true ]] && process_block
               in_block=true
-              current_mode="download"
-              block_url=""; block_filename=""; block_path=""
-              block_quality="720"; block_audio_only=false; block_playlist=false
-              block_target="me"; block_caption=""
-              block_upload_after=false
-              block_keep_on_repo=true
-              continue
-            fi
-
-            if echo "$line" | grep -q '^upload:'; then
-              [[ "$in_block" == true ]] && process_block
-              in_block=true
-              current_mode="upload"
-              block_url=""; block_filename=""; block_path=""
-              block_quality="720"; block_audio_only=false; block_playlist=false
-              block_target="me"; block_caption=""
-              block_upload_after=false
-              block_keep_on_repo=true
+              block_url=""
+              block_filename=""
+              block_path=""
+              block_quality="720"
+              block_audio_only=false
+              block_playlist=false
+              block_target="me"
+              block_caption=""
+              block_upload_telegram=false
+              block_upload_bale=false
+              block_no_keep=false
               continue
             fi
 
@@ -481,18 +323,20 @@ jobs:
               block_path=$(sanitize_path "$(echo "$line" | sed 's/^path:[[:space:]]*//' | xargs)")
             elif echo "$line" | grep -q '^quality:'; then
               block_quality=$(echo "$line" | sed 's/^quality:[[:space:]]*//' | xargs)
-            elif echo "$line" | grep -q '^audio-only:[[:space:]]*true'; then
+            elif echo "$line" | grep -q '^audio-only$'; then
               block_audio_only=true
-            elif echo "$line" | grep -q '^playlist:[[:space:]]*yes'; then
+            elif echo "$line" | grep -q '^playlist$'; then
               block_playlist=true
             elif echo "$line" | grep -q '^target:'; then
               block_target=$(echo "$line" | sed 's/^target:[[:space:]]*//' | xargs)
             elif echo "$line" | grep -q '^caption:'; then
               block_caption=$(echo "$line" | sed 's/^caption:[[:space:]]*//')
-            elif echo "$line" | grep -q '^upload-after:[[:space:]]*yes'; then
-              block_upload_after=true
-            elif echo "$line" | grep -q '^keep-on-repo:[[:space:]]*no'; then
-              block_keep_on_repo=false
+            elif echo "$line" | grep -q '^upload-telegram$'; then
+              block_upload_telegram=true
+            elif echo "$line" | grep -q '^upload-bale$'; then
+              block_upload_bale=true
+            elif echo "$line" | grep -q '^no-keep$'; then
+              block_no_keep=true
             elif [[ -z "$block_url" ]] && echo "$line" | grep -qE '^https?://'; then
               block_url=$(echo "$line" | xargs)
             fi
@@ -500,10 +344,11 @@ jobs:
 
           [[ "$in_block" == true ]] && process_block
 
-          # Clean temporary upload queue no matter what
-          rm -rf downloads/upload_queue || true
-
-          echo "all_failed=$([[ $total_failed -gt 0 && $total_success -eq 0 ]] && echo 'true' || echo 'false')" > "$STATUS_FILE"
+          if [[ $total_failed -gt 0 && $total_success -eq 0 ]]; then
+            echo "all_failed=true" > "$STATUS_FILE"
+          else
+            echo "all_failed=false" > "$STATUS_FILE"
+          fi
 
       - name: Commit downloaded files
         if: always()
@@ -511,12 +356,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Never commit temporary upload queue
-          rm -rf downloads/upload_queue || true
-
           if [[ -n $(git status -s downloads/) ]]; then
             git add downloads/
-            git commit -m "Add downloaded/upload artifacts [skip ci]"
+            git commit -m "Add downloaded artifacts [skip ci]"
             git push
           fi
 
