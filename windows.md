@@ -96,7 +96,102 @@ attrib  -H -S F:\\*.* /S /D /L
 ---
 fix cottuption
 ```
-sfc /scannow
+DISM /Online /Cleanup-Image /CheckHealth
+DISM /Online /Cleanup-Image /ScanHealth
 DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow
 ```
 ---
+بروزرسانی تمام نسخه‌های سیستم‌عامل‌ ویندوز
+
+آموزش تنظیم پراکسی برای دریافت آپدیت‌های ویندوز
+1. در ابتدا ابزار Powershell را با دسترسی Administrator در سیستم خود اجرا کنید و متغییر proxy را با استفاده از دستور زیر تنظیم کنید:
+
+```Powershell
+$proxy = "win.devneeds.ir:8445"
+```
+سپس دستورات زیر را خط به خط کپی کرده و در Powershell جایگذاری کنید (می‌توانید با استفاده کلیک راست، جایگذاری را انجام دهید)
+
+
+```Powershell
+netsh winhttp set proxy $proxy
+
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyEnable -Value 1
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyServer -Value $proxy
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyOverride -Value ""
+
+Write-Host "Proxy ENABLED"
+```
+2. روند بروزرسانی را می‌توانید با استفاده از رابط گرافیکی از مسیر settings --> Update & Security شروع کنید
+یا با وارد کردن دستور زیر در محیط Powershell، فرآیند بروزرسانی را شروع کنید:
+
+
+```Powershell
+Start-Service wuauserv
+usoclient StartScan; usoclient StartDownload; usoclient StartInstall
+```
+3. غیرفعال سازی پراکسی با تنظیم مقادیر پایین در Powershell انجام می‌شود:
+نکته: حتمأ دقت داشته باشید که Powershell را با دسترسی Administrator و خط به خط اجرا کنید:
+
+
+```Powershell
+netsh winhttp reset proxy
+
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyEnable -Value 0
+
+Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyServer -ErrorAction SilentlyContinue
+Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyOverride -ErrorAction SilentlyContinue
+
+Write-Host "Proxy DISABLED (rollback done)"
+```
+---
+**About drivers**</br>
+If you want to update drivers too, Windows Update may include some drivers automatically, but command-line control is not very transparent with usoclient.
+
+A better method is PowerShell module PSWindowsUpdate.
+
+**Install module**
+```powershell
+Install-Module PSWindowsUpdate -Force
+```
+If prompted about repository trust, answer:
+
+Y
+or
+A
+Import it
+```powershell
+Import-Module PSWindowsUpdate
+```
+See available updates
+```powershell
+Get-WindowsUpdate -MicrosoftUpdate
+```
+Install all updates, including Microsoft Update items
+```powershell
+Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot
+```
+This is the closest thing to “update everything” for:
+
+Windows updates
+some Microsoft products
+some drivers offered via Microsoft Update
+About winget
+If by “everything” you also mean apps, then after Windows Update you can run:
+
+```powershell
+winget upgrade --all
+```
+This updates installed applications such as:
+
+browsers
+editors
+tools
+media apps
+But not core Windows system updates.
+
+So:
+
+DISM/SFC → repair Windows
+Windows Update / PSWindowsUpdate → update Windows + some drivers
+winget → update apps
