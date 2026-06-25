@@ -16,20 +16,20 @@ apt-get install -y software-properties-common ufw wget curl git socat cron busyb
 Disable IPv6
 ```
 sudo vi /etc/default/grub
-```
+
  **Change this line:**
 GRUB_CMDLINE_LINUX_DEFAULT=""
 ** To:**
 GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1"
 
 If it was like this:
-```
+
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
-```
+
 then just add it after that, like this:
-```
+
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash ipv6.disable=1"
-```
+
 
 # Save and update GRUB
 sudo update-grub
