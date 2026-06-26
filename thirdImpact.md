@@ -43,6 +43,7 @@ ip addr show ens160 | grep inet6
 # Or check sysfs
 test -f /proc/net/if_inet6 && echo "IPv6 enabled" || echo "IPv6 disabled"
 
+if that did not work then instead of adding it to `GRUB_CMDLINE_LINUX_DEFAULT=` add it to `GRUB_CMDLINE_LINUX=` then proceed again with updating grub.
 ```
 ---
 Timezone
