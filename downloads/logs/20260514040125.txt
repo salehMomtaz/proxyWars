@@ -1,971 +1,0 @@
-=== Parsing commit message ===
-Update constantLinks.txt
-
-download:
-https://ne6-00ce353197c4.herokuapp.com/stream/2200201?hash=102706&d=true | capitolReport14050223_1.mp3
-path: audio/capitolReport/
-
-download:
-https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true | vaisi14050224.mp3
-path: audio/vaisi/
-
-download:
-https://ne6-00ce353197c4.herokuapp.com/stream/2200315?hash=2f05ae&d=true | capitolReport14050223_2.mp3
-path: audio/capitolReport/
-
-download:
-https://ne6-00ce353197c4.herokuapp.com/stream/2200249?hash=e3b6a0&d=true | dailyReport14050223.mp4
-path: dailyReports/
-==============================
-
-=== Processing block ===
-URL: https://ne6-00ce353197c4.herokuapp.com/stream/2200201?hash=102706&d=true
-Filename: capitolReport14050223_1.mp3
-Path: audio/capitolReport/
-Downloading with fallback chain...
-Trying aria2c...
-
-05/14 04:01:25 [[1;32mNOTICE[0m] Downloading 1 item(s)
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-[#f478b7 0B/0B CN:1 DL:0B]
-
-05/14 04:01:55 [[1;31mERROR[0m] CUID#7 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200201?hash=102706&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200201?hash=102706&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-
-05/14 04:01:55 [[1;32mNOTICE[0m] Download GID#f478b78c2478e836 not complete: downloads/general/audio/capitolReport/capitolReport14050223_1.mp3
-
-Download Results:
-gid   |stat|avg speed  |path/URI
-======+====+===========+=======================================================
-f478b7|ERR |       0B/s|downloads/general/audio/capitolReport/capitolReport14050223_1.mp3
-
-Status Legend:
-(ERR):error occurred.
-
-aria2 will resume download if the transfer is restarted.
-If there are any errors, then see the log file. See '-l' option in help/man page for details.
-Trying curl...
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:16 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:17 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:18 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:19 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:20 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:21 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:22 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:23 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:24 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:25 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:26 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:27 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:28 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:29 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:30 --:--:--     0  0   567    0     0    0     0      0      0 --:--:--  0:00:30 --:--:--     0
-curl: (22) The requested URL returned error: 503
-Warning: Problem : HTTP error. Will retry in 1 seconds. 2 retries left.
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:16 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:17 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:18 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:19 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:20 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:21 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:22 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:23 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:24 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:25 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:26 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:27 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:28 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:29 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:30 --:--:--     0  0   567    0     0    0     0      0      0 --:--:--  0:00:30 --:--:--     0
-curl: (22) The requested URL returned error: 503
-Warning: Problem : HTTP error. Will retry in 2 seconds. 1 retries left.
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:16 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:17 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:18 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:19 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:20 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:21 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:22 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:23 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:24 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:25 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:26 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:27 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:28 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:29 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:30 --:--:--     0  0   567    0     0    0     0      0      0 --:--:--  0:00:30 --:--:--     0
-curl: (22) The requested URL returned error: 503
-Trying wget...
---2026-05-14 04:03:28--  https://ne6-00ce353197c4.herokuapp.com/stream/2200201?hash=102706&d=true
-Resolving ne6-00ce353197c4.herokuapp.com (ne6-00ce353197c4.herokuapp.com)... 23.22.52.7, 3.216.88.24, 3.219.96.23, ...
-Connecting to ne6-00ce353197c4.herokuapp.com (ne6-00ce353197c4.herokuapp.com)|23.22.52.7|:443... connected.
-HTTP request sent, awaiting response... Read error (Connection timed out) in headers.
-Retrying.
-
---2026-05-14 04:03:59--  (try: 2)  https://ne6-00ce353197c4.herokuapp.com/stream/2200201?hash=102706&d=true
-Connecting to ne6-00ce353197c4.herokuapp.com (ne6-00ce353197c4.herokuapp.com)|23.22.52.7|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 26821745 (26M) [audio/ogg]
-Saving to: ‘downloads/general/audio/capitolReport/capitolReport14050223_1.mp3’
-
-     0K .......... .......... .......... .......... ..........  0% 8.64M 3s
-    50K .......... .......... .......... .......... ..........  0% 8.73M 3s
-   100K .......... .......... .......... .......... ..........  0% 8.88M 3s
-   150K .......... .......... .......... .......... ..........  0% 9.04M 3s
-   200K .......... .......... .......... .......... ..........  0%  127M 2s
-   250K .......... .......... .......... .......... ..........  1% 9.46M 2s
-   300K .......... .......... .......... .......... ..........  1%  135M 2s
-   350K .......... .......... .......... .......... ..........  1%  160M 2s
-   400K .......... .......... .......... .......... ..........  1% 9.55M 2s
-   450K .......... .......... .......... .......... ..........  1%  233M 2s
-   500K .......... .......... .......... .......... ..........  2%  190M 2s
-   550K .......... .......... .......... .......... ..........  2% 10.1M 2s
-   600K .......... .......... .......... .......... ..........  2% 73.4M 2s
-   650K .......... .......... .......... .......... ..........  2%  179M 1s
-   700K .......... .......... .......... .......... ..........  2%  175M 1s
-   750K .......... .......... .......... .......... ..........  3% 10.1M 1s
-   800K .......... .......... .......... .......... ..........  3%  165M 1s
-   850K .......... .......... .......... .......... ..........  3%  165M 1s
-   900K .......... .......... .......... .......... ..........  3%  231M 1s
-   950K .......... .......... .......... .......... ..........  3%  232M 1s
-  1000K .......... .......... ....                              3%  390M=0.05s
-
-2026-05-14 04:04:49 (21.8 MB/s) - Read error at byte 1048576/26821745 (Connection timed out). Giving up.
-
-FAIL: General download failed: https://ne6-00ce353197c4.herokuapp.com/stream/2200201?hash=102706&d=true
-=======================
-
-=== Processing block ===
-URL: https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Filename: vaisi14050224.mp3
-Path: audio/vaisi/
-Downloading with fallback chain...
-Trying aria2c...
-
-05/14 04:04:49 [[1;32mNOTICE[0m] Downloading 1 item(s)
-[#c5c3b5 0B/0B CN:1 DL:0B]
-[#c5c3b5 0B/0B CN:1 DL:0B]
-[#c5c3b5 0B/0B CN:1 DL:0B]
-[#c5c3b5 1.0MiB/27MiB(3%) CN:16 DL:0.9MiB ETA:28s]
-[#c5c3b5 1.0MiB/27MiB(3%) CN:16 DL:490KiB ETA:55s]
-[#c5c3b5 3.0MiB/27MiB(10%) CN:16 DL:801KiB ETA:31s]
-[#c5c3b5 3.7MiB/27MiB(13%) CN:16 DL:806KiB ETA:29s]
-[#c5c3b5 5.0MiB/27MiB(18%) CN:16 DL:862KiB ETA:26s]
-[#c5c3b5 6.0MiB/27MiB(21%) CN:16 DL:882KiB ETA:24s]
-[#c5c3b5 6.3MiB/27MiB(23%) CN:16 DL:766KiB ETA:28s]
-[#c5c3b5 6.3MiB/27MiB(23%) CN:16 DL:686KiB ETA:31s]
-[#c5c3b5 6.3MiB/27MiB(23%) CN:16 DL:692KiB ETA:31s]
-[#c5c3b5 6.3MiB/27MiB(23%) CN:16 DL:615KiB ETA:34s]
-[#c5c3b5 7.3MiB/27MiB(26%) CN:16 DL:571KiB ETA:35s]
-[#c5c3b5 7.3MiB/27MiB(26%) CN:16 DL:506KiB ETA:40s]
-[#c5c3b5 7.3MiB/27MiB(26%) CN:16 DL:455KiB ETA:44s]
-[#c5c3b5 8.3MiB/27MiB(30%) CN:16 DL:350KiB ETA:55s]
-[#c5c3b5 9.3MiB/27MiB(34%) CN:16 DL:359KiB ETA:51s]
-[#c5c3b5 11MiB/27MiB(41%) CN:16 DL:778KiB ETA:21s]
-[#c5c3b5 12MiB/27MiB(45%) CN:16 DL:804KiB ETA:19s]
-[#c5c3b5 12MiB/27MiB(45%) CN:15 DL:711KiB ETA:21s]
-[#c5c3b5 12MiB/27MiB(45%) CN:15 DL:637KiB ETA:24s]
-[#c5c3b5 12MiB/27MiB(45%) CN:15 DL:686KiB ETA:22s]
-[#c5c3b5 12MiB/27MiB(45%) CN:15 DL:605KiB ETA:25s]
-[#c5c3b5 12MiB/27MiB(45%) CN:15 DL:541KiB ETA:28s]
-[#c5c3b5 12MiB/27MiB(45%) CN:15 DL:453KiB ETA:33s]
-[#c5c3b5 13MiB/27MiB(48%) CN:15 DL:331KiB ETA:43s]
-[#c5c3b5 13MiB/27MiB(48%) CN:14 DL:501KiB ETA:28s]
-[#c5c3b5 14MiB/27MiB(52%) CN:13 DL:526KiB ETA:25s]
-
-05/14 04:05:23 [[1;31mERROR[0m] CUID#9 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-
-05/14 04:05:23 [[1;31mERROR[0m] CUID#12 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-
-05/14 04:05:23 [[1;31mERROR[0m] CUID#10 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-
-05/14 04:05:23 [[1;31mERROR[0m] CUID#17 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-
-05/14 04:05:23 [[1;31mERROR[0m] CUID#16 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-[#c5c3b5 14MiB/27MiB(52%) CN:10 DL:417KiB ETA:31s]
-
-05/14 04:05:24 [[1;31mERROR[0m] CUID#19 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-[#c5c3b5 14MiB/27MiB(52%) CN:9 DL:344KiB ETA:38s]
-[#c5c3b5 14MiB/27MiB(52%) CN:9 DL:294KiB ETA:45s]
-[#c5c3b5 15MiB/27MiB(56%) CN:9 DL:373KiB ETA:32s]
-[#c5c3b5 15MiB/27MiB(56%) CN:9 DL:333KiB ETA:36s]
-
-05/14 04:05:28 [[1;31mERROR[0m] CUID#20 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-[#c5c3b5 15MiB/27MiB(56%) CN:8 DL:258KiB ETA:47s]
-[#c5c3b5 16MiB/27MiB(59%) CN:8 DL:338KiB ETA:33s]
-[#c5c3b5 16MiB/27MiB(59%) CN:8 DL:354KiB ETA:31s]
-[#c5c3b5 16MiB/27MiB(59%) CN:8 DL:302KiB ETA:37s]
-[#c5c3b5 16MiB/27MiB(59%) CN:8 DL:263KiB ETA:42s]
-[#c5c3b5 16MiB/27MiB(59%) CN:8 DL:233KiB ETA:48s]
-[#c5c3b5 17MiB/27MiB(63%) CN:8 DL:296KiB ETA:34s]
-
-05/14 04:05:37 [[1;31mERROR[0m] CUID#15 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-[#c5c3b5 17MiB/27MiB(63%) CN:7 DL:240KiB ETA:42s]
-[#c5c3b5 19MiB/27MiB(70%) CN:7 DL:423KiB ETA:19s]
-[#c5c3b5 19MiB/27MiB(70%) CN:7 DL:639KiB ETA:12s]
-
-05/14 04:05:41 [[1;31mERROR[0m] CUID#22 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-[#c5c3b5 19MiB/27MiB(70%) CN:6 DL:488KiB ETA:16s]
-[#c5c3b5 19MiB/27MiB(70%) CN:6 DL:421KiB ETA:19s]
-[#c5c3b5 20MiB/27MiB(74%) CN:6 DL:464KiB ETA:15s]
-[#c5c3b5 21MiB/27MiB(78%) CN:6 DL:512KiB ETA:11s]
-[#c5c3b5 21MiB/27MiB(78%) CN:6 DL:455KiB ETA:13s]
-[#c5c3b5 21MiB/27MiB(78%) CN:6 DL:409KiB ETA:14s]
- *** Download Progress Summary as of Thu May 14 04:05:49 2026 *** 
-===============================================================================
-[#c5c3b5 21MiB/27MiB(78%) CN:6 DL:347KiB ETA:17s]
-FILE: downloads/general/audio/vaisi/vaisi14050224.mp3
--------------------------------------------------------------------------------
-
-[#c5c3b5 21MiB/27MiB(78%) CN:6 DL:347KiB ETA:17s]
-[#c5c3b5 21MiB/27MiB(78%) CN:6 DL:296KiB ETA:20s]
-[#c5c3b5 21MiB/27MiB(78%) CN:6 DL:259KiB ETA:23s]
-[#c5c3b5 21MiB/27MiB(78%) CN:6 DL:230KiB ETA:26s]
-
-05/14 04:05:53 [[1;31mERROR[0m] CUID#24 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-[#c5c3b5 21MiB/27MiB(78%) CN:5 DL:120KiB ETA:50s]
-[#c5c3b5 21MiB/27MiB(78%) CN:5 DL:107KiB ETA:57s]
-[#c5c3b5 21MiB/27MiB(78%) CN:5 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:5 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:5 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:5 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:5 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:5 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:5 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:5 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:5 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:5 DL:0B]
-
-05/14 04:06:05 [[1;31mERROR[0m] CUID#8 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-[#c5c3b5 21MiB/27MiB(78%) CN:4 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:4 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:4 DL:0B]
-
-05/14 04:06:09 [[1;31mERROR[0m] CUID#18 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-[#c5c3b5 21MiB/27MiB(78%) CN:3 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:3 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:3 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:3 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:3 DL:0B]
-
-05/14 04:06:14 [[1;31mERROR[0m] CUID#23 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-
-05/14 04:06:15 [[1;31mERROR[0m] CUID#7 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-[#c5c3b5 21MiB/27MiB(78%) CN:1 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:1 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:1 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:1 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:1 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:1 DL:0B]
-[#c5c3b5 21MiB/27MiB(78%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0.9MiB ETA:5s]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:501KiB ETA:10s]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:336KiB ETA:15s]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:253KiB ETA:20s]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:202KiB ETA:25s]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:169KiB ETA:30s]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:145KiB ETA:35s]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:127KiB ETA:40s]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:113KiB ETA:45s]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
- *** Download Progress Summary as of Thu May 14 04:06:50 2026 *** 
-===============================================================================
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-FILE: downloads/general/audio/vaisi/vaisi14050224.mp3
--------------------------------------------------------------------------------
-
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-[#c5c3b5 22MiB/27MiB(81%) CN:1 DL:0B]
-
-05/14 04:06:53 [[1;31mERROR[0m] CUID#13 - Download aborted. URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Exception: [AbstractCommand.cc:351] errorCode=29 URI=https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-  -> [HttpSkipResponseCommand.cc:231] errorCode=29 The response status is not successful. status=503
-
-05/14 04:06:53 [[1;32mNOTICE[0m] Download GID#c5c3b5e0cb050566 not complete: downloads/general/audio/vaisi/vaisi14050224.mp3
-
-Download Results:
-gid   |stat|avg speed  |path/URI
-======+====+===========+=======================================================
-c5c3b5|ERR |   190KiB/s|downloads/general/audio/vaisi/vaisi14050224.mp3
-
-Status Legend:
-(ERR):error occurred.
-
-aria2 will resume download if the transfer is restarted.
-If there are any errors, then see the log file. See '-l' option in help/man page for details.
-Trying curl...
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:16 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:17 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:18 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:19 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:20 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:21 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:22 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:23 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:24 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:25 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:26 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:27 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:28 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:29 --:--:--     0  0 27.3M    0  3339    0     0    112      0 71:13:38  0:00:29 71:13:09   722  3 27.3M    3 1024k    0     0  33823      0  0:14:09  0:00:31  0:13:38  205k  3 27.3M    3 1024k    0     0  32765      0  0:14:36  0:00:32  0:14:04  205k  3 27.3M    3 1024k    0     0  31771      0  0:15:03  0:00:33  0:14:30  205k  3 27.3M    3 1024k    0     0  30835      0  0:15:31  0:00:34  0:14:57  205k  3 27.3M    3 1024k    0     0  29953      0  0:15:58  0:00:35  0:15:23  190k  3 27.3M    3 1024k    0     0  29121      0  0:16:26  0:00:36  0:15:50     0  3 27.3M    3 1024k    0     0  28333      0  0:16:53  0:00:37  0:16:16     0  3 27.3M    3 1024k    0     0  27587      0  0:17:21  0:00:38  0:16:43     0  3 27.3M    3 1024k    0     0  26879      0  0:17:48  0:00:39  0:17:09     0  3 27.3M    3 1024k    0     0  26206      0  0:18:15  0:00:40  0:17:35     0  3 27.3M    3 1024k    0     0  25566      0  0:18:43  0:00:41  0:18:02     0  3 27.3M    3 1024k    0     0  24957      0  0:19:10  0:00:42  0:18:28     0  3 27.3M    3 1024k    0     0  24376      0  0:19:38  0:00:43  0:18:55     0  3 27.3M    3 1024k    0     0  23822      0  0:20:05  0:00:44  0:19:21     0  3 27.3M    3 1024k    0     0  23292      0  0:20:32  0:00:45  0:19:47     0  3 27.3M    3 1024k    0     0  22785      0  0:21:00  0:00:46  0:20:14     0  3 27.3M    3 1024k    0     0  22300      0  0:21:27  0:00:47  0:20:40     0  3 27.3M    3 1024k    0     0  21835      0  0:21:55  0:00:48  0:21:07     0  3 27.3M    3 1024k    0     0  21389      0  0:22:22  0:00:49  0:21:33     0  3 27.3M    3 1024k    0     0  20961      0  0:22:50  0:00:50  0:22:00     0  3 27.3M    3 1024k    0     0  20550      0  0:23:17  0:00:51  0:22:26     0  3 27.3M    3 1024k    0     0  20154      0  0:23:44  0:00:52  0:22:52     0  3 27.3M    3 1024k    0     0  19774      0  0:24:12  0:00:53  0:23:19     0  3 27.3M    3 1024k    0     0  19407      0  0:24:39  0:00:54  0:23:45     0  3 27.3M    3 1024k    0     0  19054      0  0:25:07  0:00:55  0:24:12     0  3 27.3M    3 1024k    0     0  18714      0  0:25:34  0:00:56  0:24:38     0  3 27.3M    3 1024k    0     0  18385      0  0:26:02  0:00:57  0:25:05     0  3 27.3M    3 1024k    0     0  18068      0  0:26:29  0:00:58  0:25:31     0  3 27.3M    3 1024k    0     0  17762      0  0:26:56  0:00:59  0:25:57     0  3 27.3M    3 1024k    0     0  17466      0  0:27:24  0:01:00  0:26:24     0  3 27.3M    3 1024k    0     0  17179      0  0:27:51  0:01:01  0:26:50     0  3 27.3M    3 1024k    0     0  16902      0  0:28:19  0:01:02  0:27:17     0  3 27.3M    3 1024k    0     0  16633      0  0:28:46  0:01:03  0:27:43     0  3 27.3M    3 1024k    0     0  16373      0  0:29:14  0:01:04  0:28:10     0  3 27.3M    3 1024k    0     0  16121      0  0:29:41  0:01:05  0:28:36     0  3 27.3M    3 1024k    0     0  15877      0  0:30:08  0:01:06  0:29:02     0  3 27.3M    3 1024k    0     0  15640      0  0:30:36  0:01:07  0:29:29     0  3 27.3M    3 1024k    0     0  15410      0  0:31:03  0:01:08  0:29:55     0  3 27.3M    3 1024k    0     0  15186      0  0:31:31  0:01:09  0:30:22     0  3 27.3M    3 1024k    0     0  14969      0  0:31:58  0:01:10  0:30:48     0  3 27.3M    3 1024k    0     0  14758      0  0:32:25  0:01:11  0:31:14     0  3 27.3M    3 1024k    0     0  14553      0  0:32:53  0:01:12  0:31:41     0  3 27.3M    3 1024k    0     0  14354      0  0:33:20  0:01:13  0:32:07     0  3 27.3M    3 1024k    0     0  14160      0  0:33:48  0:01:14  0:32:34     0  3 27.3M    3 1024k    0     0  13971      0  0:34:15  0:01:15  0:33:00     0  3 27.3M    3 1024k    0     0  13787      0  0:34:43  0:01:16  0:33:27     0  3 27.3M    3 1024k    0     0  13608      0  0:35:10  0:01:17  0:33:53     0  3 27.3M    3 1024k    0     0  13433      0  0:35:37  0:01:18  0:34:19     0  3 27.3M    3 1024k    0     0  13263      0  0:36:05  0:01:19  0:34:46     0  3 27.3M    3 1024k    0     0  13097      0  0:36:32  0:01:20  0:35:12     0  3 27.3M    3 1024k    0     0  12936      0  0:37:00  0:01:21  0:35:39     0  3 27.3M    3 1024k    0     0  12778      0  0:37:27  0:01:22  0:36:05     0  3 27.3M    3 1024k    0     0  12624      0  0:37:54  0:01:23  0:36:31     0  3 27.3M    3 1024k    0     0  12473      0  0:38:22  0:01:24  0:36:58     0  3 27.3M    3 1024k    0     0  12388      0  0:38:38  0:01:24  0:37:14     0  3 27.3M    3 1024k    0     0  12388      0  0:38:38  0:01:24  0:37:14     0
-curl: (18) transfer closed with 27670334 bytes remaining to read
-Trying wget...
---2026-05-14 04:08:18--  https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Resolving ne6-00ce353197c4.herokuapp.com (ne6-00ce353197c4.herokuapp.com)... 23.22.144.165, 3.216.88.24, 23.22.52.7, ...
-Connecting to ne6-00ce353197c4.herokuapp.com (ne6-00ce353197c4.herokuapp.com)|23.22.144.165|:443... connected.
-HTTP request sent, awaiting response... Read error (Connection timed out) in headers.
-Retrying.
-
---2026-05-14 04:08:49--  (try: 2)  https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-Connecting to ne6-00ce353197c4.herokuapp.com (ne6-00ce353197c4.herokuapp.com)|23.22.144.165|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 28718910 (27M) [audio/ogg]
-Saving to: ‘downloads/general/audio/vaisi/vaisi14050224.mp3’
-
-     0K .......... .......... .......... .......... ..........  0% 4.43M 6s
-    50K .......... .......... .......... .......... ..........  0% 8.87M 5s
-   100K .......... .......... .......... .......... ..........  0% 9.04M 4s
-   150K .......... .......... .......... .......... ..........  0%  171M 3s
-   200K .......... .......... .......... .......... ..........  0% 8.95M 3s
-   250K .......... .......... .......... .......... ..........  1%  196M 3s
-   300K .......... .......... .......... .......... ..........  1% 10.4M 3s
-   350K .......... .......... .......... .......... ..........  1% 51.7M 2s
-   400K .......... .......... .......... .......... ..........  1%  187M 2s
-   450K .......... .......... .......... .......... ..........  1% 11.3M 2s
-   500K .......... .......... .......... .......... ..........  1% 61.3M 2s
-   550K .......... .......... .......... .......... ..........  2%  138M 2s
-   600K .......... .......... .......... .......... ..........  2% 11.4M 2s
-   650K .......... .......... .......... .......... ..........  2%  152M 2s
-   700K .......... .......... .......... .......... ..........  2% 96.3M 2s
-   750K .......... .......... .......... .......... ..........  2%  162M 2s
-   800K .......... .......... .......... .......... ..........  3%  134M 1s
-   850K .......... .......... .......... .......... ..........  3% 11.5M 1s
-   900K .......... .......... .......... .......... ..........  3%  184M 1s
-   950K .......... .......... .......... .......... ..........  3%  119M 1s
-  1000K .......... .......... .......... .......... ..........  3% 20.4K 64s
-  1050K .......... .......... .......... .......... ..........  3% 8.86M 61s
-  1100K .......... .......... .......... .......... ..........  4% 9.07M 59s
-  1150K .......... .......... .......... .......... ..........  4%  202M 56s
-  1200K .......... .......... .......... .......... ..........  4% 9.41M 54s
-  1250K .......... .......... .......... .......... ..........  4%  196M 52s
-  1300K .......... .......... .......... .......... ..........  4%  148M 50s
-  1350K .......... .......... .......... .......... ..........  4%  205M 48s
-  1400K .......... .......... .......... .......... ..........  5% 11.1M 46s
-  1450K .......... .......... .......... .......... ..........  5% 82.4M 45s
-  1500K .......... .......... .......... .......... ..........  5%  217M 43s
-  1550K .......... .......... .......... .......... ..........  5%  218M 42s
-  1600K .......... .......... .......... .......... ..........  5%  241M 40s
-  1650K .......... .......... .......... .......... ..........  6%  323M 39s
-  1700K .......... .......... .......... .......... ..........  6%  221M 38s
-  1750K .......... .......... .......... .......... ..........  6%  184M 37s
-  1800K .......... .......... .......... .......... ..........  6%  246M 36s
-  1850K .......... .......... .......... .......... ..........  6% 14.5M 35s
-  1900K .......... .......... .......... .......... ..........  6% 74.4M 34s
-  1950K .......... .......... .......... .......... ..........  7% 84.3M 33s
-  2000K .......... .......... .......... .......... ..........  7%  126K 37s
-  2050K .......... .......... .......... .......... ..........  7% 93.9M 36s
-  2100K .......... .......... .......... .......... ..........  7% 97.2M 35s
-  2150K .......... .......... .......... .......... ..........  7%  136M 34s
-  2200K .......... .......... .......... .......... ..........  8%  103M 34s
-  2250K .......... .......... .......... .......... ..........  8%  264M 33s
-  2300K .......... .......... .......... .......... ..........  8%  252M 32s
-  2350K .......... .......... .......... .......... ..........  8%  228M 31s
-  2400K .......... .......... .......... .......... ..........  8%  226M 31s
-  2450K .......... .......... .......... .......... ..........  8%  247M 30s
-  2500K .......... .......... .......... .......... ..........  9%  297M 29s
-  2550K .......... .......... .......... .......... ..........  9% 17.7M 29s
-  2600K .......... .......... .......... .......... ..........  9%  113M 28s
-  2650K .......... .......... .......... .......... ..........  9% 98.8M 28s
-  2700K .......... .......... .......... .......... ..........  9%  162M 27s
-  2750K .......... .......... .......... .......... ..........  9%  161M 26s
-  2800K .......... .......... .......... .......... .......... 10%  305M 26s
-  2850K .......... .......... .......... .......... .......... 10%  253M 25s
-  2900K .......... .......... .......... .......... .......... 10%  299M 25s
-  2950K .......... .......... .......... .......... .......... 10%  341M 24s
-  3000K .......... .......... .......... .......... .......... 10%  343M 24s
-  3050K .......... .......... .......... .......... .......... 11% 9.79K 65s
-  3100K .......... .......... .......... .......... .......... 11% 8.94M 64s
-  3150K .......... .......... .......... .......... .......... 11% 8.83M 63s
-  3200K .......... .......... .......... .......... .......... 11%  159M 61s
-  3250K .......... .......... .......... .......... .......... 11% 9.55M 60s
-  3300K .......... .......... .......... .......... .......... 11% 81.4M 59s
-  3350K .......... .......... .......... .......... .......... 12%  241M 58s
-  3400K .......... .......... .......... .......... .......... 12%  248M 57s
-  3450K .......... .......... .......... .......... .......... 12% 11.8M 57s
-  3500K .......... .......... .......... .......... .......... 12% 61.6M 56s
-  3550K .......... .......... .......... .......... .......... 12% 72.2M 55s
-  3600K .......... .......... .......... .......... .......... 13%  144M 54s
-  3650K .......... .......... .......... .......... .......... 13%  254M 53s
-  3700K .......... .......... .......... .......... .......... 13%  245M 52s
-  3750K .......... .......... .......... .......... .......... 13%  221M 51s
-  3800K .......... .......... .......... .......... .......... 13%  240M 51s
-  3850K .......... .......... .......... .......... .......... 13%  291M 50s
-  3900K .......... .......... .......... .......... .......... 14% 19.1M 49s
-  3950K .......... .......... .......... .......... .......... 14% 60.3M 49s
-  4000K .......... .......... .......... .......... .......... 14%  150M 48s
-  4050K .......... .......... .......... .......... .......... 14% 11.3K 73s
-  4100K .......... .......... .......... .......... .......... 14% 8.91M 72s
-  4150K .......... .......... .......... .......... .......... 14% 9.17M 71s
-  4200K .......... .......... .......... .......... .......... 15% 98.1M 70s
-  4250K .......... .......... .......... .......... .......... 15%  257M 69s
-  4300K .......... .......... .......... .......... .......... 15% 9.41M 68s
-  4350K .......... .......... .......... .......... .......... 15%  209M 67s
-  4400K .......... .......... .......... .......... .......... 15%  177M 66s
-  4450K .......... .......... .......... .......... .......... 16%  285M 66s
-  4500K .......... .......... .......... .......... .......... 16% 10.4M 65s
-  4550K .......... .......... .......... .......... .......... 16%  141M 64s
-  4600K .......... .......... .......... .......... .......... 16%  168M 63s
-  4650K .......... .......... .......... .......... .......... 16%  204M 62s
-  4700K .......... .......... .......... .......... .......... 16%  196M 61s
-  4750K .......... .......... .......... .......... .......... 17%  191M 61s
-  4800K .......... .......... .......... .......... .......... 17%  212M 60s
-  4850K .......... .......... .......... .......... .......... 17%  334M 59s
-  4900K .......... .......... .......... .......... .......... 17%  331M 58s
-  4950K .......... .......... .......... .......... .......... 17% 13.0M 58s
-  5000K .......... .......... .......... .......... .......... 18%  187M 57s
-  5050K .......... .......... .......... .......... .......... 18%  233M 56s
-  5100K .......... .......... .......... .......... .......... 18% 53.0K 60s
-  5150K .......... .......... .......... .......... .......... 18% 9.07M 59s
-  5200K .......... .......... .......... .......... .......... 18%  204M 59s
-  5250K .......... .......... .......... .......... .......... 18%  182M 58s
-  5300K .......... .......... .......... .......... .......... 19% 9.26M 57s
-  5350K .......... .......... .......... .......... .......... 19%  193M 57s
-  5400K .......... .......... .......... .......... .......... 19%  209M 56s
-  5450K .......... .......... .......... .......... .......... 19%  184M 55s
-  5500K .......... .......... .......... .......... .......... 19%  236M 55s
-  5550K .......... .......... .......... .......... .......... 19% 11.0M 54s
-  5600K .......... .......... .......... .......... .......... 20%  194M 53s
-  5650K .......... .......... .......... .......... .......... 20%  161M 53s
-  5700K .......... .......... .......... .......... .......... 20%  222M 52s
-  5750K .......... .......... .......... .......... .......... 20%  179M 52s
-  5800K .......... .......... .......... .......... .......... 20%  131M 51s
-  5850K .......... .......... .......... .......... .......... 21%  238M 51s
-  5900K .......... .......... .......... .......... .......... 21%  257M 50s
-  5950K .......... .......... .......... .......... .......... 21%  235M 50s
-  6000K .......... .......... .......... .......... .......... 21%  268M 49s
-  6050K .......... .......... .......... .......... .......... 21% 15.3M 49s
-  6100K .......... .......... .......... .......... .......... 21% 67.2K 51s
-  6150K .......... .......... .......... .......... .......... 22% 83.5M 50s
-  6200K .......... .......... .......... .......... .......... 22%  187M 50s
-  6250K .......... .......... .......... .......... .......... 22% 9.80M 49s
-  6300K .......... .......... .......... .......... .......... 22%  200M 49s
-  6350K .......... .......... .......... .......... .......... 22%  181M 48s
-  6400K .......... .......... .......... .......... .......... 22%  170M 48s
-  6450K .......... .......... .......... .......... .......... 23%  167M 47s
-  6500K .......... .......... .......... .......... .......... 23% 12.8M 47s
-  6550K .......... .......... .......... .......... .......... 23% 64.1M 46s
-  6600K .......... .......... .......... .......... .......... 23%  199M 46s
-  6650K .......... .......... .......... .......... .......... 23%  157M 45s
-  6700K .......... .......... .......... .......... .......... 24%  200M 45s
-  6750K .......... .......... .......... .......... .......... 24%  192M 45s
-  6800K .......... .......... .......... .......... .......... 24%  233M 44s
-  6850K .......... .......... .......... .......... .......... 24%  246M 44s
-  6900K .......... .......... .......... .......... .......... 24%  230M 43s
-  6950K .......... .......... .......... .......... .......... 24%  258M 43s
-  7000K .......... .......... .......... .......... .......... 25%  310M 42s
-  7050K .......... .......... .......... .......... .......... 25% 15.2M 42s
-  7100K .......... .......... .......... .......... .......... 25%  157M 42s
-  7150K .......... .......... .......... .......... .......... 25% 90.8K 43s
-  7200K .......... .......... .......... .......... .......... 25%  167M 42s
-  7250K .......... .......... .......... .......... .......... 26%  111M 42s
-  7300K .......... .......... .......... .......... .......... 26%  139M 42s
-  7350K .......... .......... .......... .......... .......... 26%  205M 41s
-  7400K .......... .......... .......... .......... .......... 26%  237M 41s
-  7450K .......... .......... .......... .......... .......... 26% 11.9M 41s
-  7500K .......... .......... .......... .......... .......... 26%  163M 40s
-  7550K .......... .......... .......... .......... .......... 27%  176M 40s
-  7600K .......... .......... .......... .......... .......... 27%  252M 39s
-  7650K .......... .......... .......... .......... .......... 27%  206M 39s
-  7700K .......... .......... .......... .......... .......... 27%  159M 39s
-  7750K .......... .......... .......... .......... .......... 27%  182M 38s
-  7800K .......... .......... .......... .......... .......... 27%  236M 38s
-  7850K .......... .......... .......... .......... .......... 28%  249M 38s
-  7900K .......... .......... .......... .......... .......... 28%  243M 37s
-  7950K .......... .......... .......... .......... .......... 28% 15.7M 37s
-  8000K .......... .......... .......... .......... .......... 28%  129M 37s
-  8050K .......... .......... .......... .......... .......... 28%  243M 36s
-  8100K .......... .......... .......... .......... .......... 29%  247M 36s
-  8150K .......... .......... .......... .......... .......... 29%  138K 37s
-  8200K .......... .......... .......... .......... .......... 29%  134M 36s
-  8250K .......... .......... .......... .......... .......... 29%  180M 36s
-  8300K .......... .......... .......... .......... .......... 29%  159M 36s
-  8350K .......... .......... .......... .......... .......... 29%  247M 36s
-  8400K .......... .......... .......... .......... .......... 30%  250M 35s
-  8450K .......... .......... .......... .......... .......... 30%  208M 35s
-  8500K .......... .......... .......... .......... .......... 30%  178M 35s
-  8550K .......... .......... .......... .......... .......... 30%  255M 34s
-  8600K .......... .......... .......... .......... .......... 30%  196M 34s
-  8650K .......... .......... .......... .......... .......... 31%  244M 34s
-  8700K .......... .......... .......... .......... .......... 31%  229M 33s
-  8750K .......... .......... .......... .......... .......... 31%  250M 33s
-  8800K .......... .......... .......... .......... .......... 31% 17.3M 33s
-  8850K .......... .......... .......... .......... .......... 31%  171M 33s
-  8900K .......... .......... .......... .......... .......... 31%  152M 32s
-  8950K .......... .......... .......... .......... .......... 32%  169M 32s
-  9000K .......... .......... .......... .......... .......... 32%  182M 32s
-  9050K .......... .......... .......... .......... .......... 32%  317M 32s
-  9100K .......... .......... .......... .......... .......... 32%  341M 31s
-  9150K .......... .......... .......... .......... .......... 32%  341M 31s
-  9200K .......... .......... .......... .......... .......... 32%  139K 32s
-  9250K .......... .......... .......... .......... .......... 33%  215M 31s
-  9300K .......... .......... .......... .......... .......... 33%  156M 31s
-  9350K .......... .......... .......... .......... .......... 33%  172M 31s
-  9400K .......... .......... .......... .......... .......... 33%  217M 31s
-  9450K .......... .......... .......... .......... .......... 33%  253M 30s
-  9500K .......... .......... .......... .......... .......... 34%  163M 30s
-  9550K .......... .......... .......... .......... .......... 34%  179M 30s
-  9600K .......... .......... .......... .......... .......... 34%  144M 30s
-  9650K .......... .......... .......... .......... .......... 34%  236M 29s
-  9700K .......... .......... .......... .......... .......... 34%  283M 29s
-  9750K .......... .......... .......... .......... .......... 34%  293M 29s
-  9800K .......... .......... .......... .......... .......... 35%  241M 29s
-  9850K .......... .......... .......... .......... .......... 35%  233M 29s
-  9900K .......... .......... .......... .......... .......... 35%  238M 28s
-  9950K .......... .......... .......... .......... .......... 35%  220M 28s
- 10000K .......... .......... .......... .......... .......... 35% 30.1M 28s
- 10050K .......... .......... .......... .......... .......... 36%  200M 28s
- 10100K .......... .......... .......... .......... .......... 36%  209M 27s
- 10150K .......... .......... .......... .......... .......... 36%  254M 27s
- 10200K .......... .......... .......... .......... .......... 36% 91.1K 28s
- 10250K .......... .......... .......... .......... .......... 36%  175M 28s
- 10300K .......... .......... .......... .......... .......... 36%  300M 28s
- 10350K .......... .......... .......... .......... .......... 37%  142M 27s
- 10400K .......... .......... .......... .......... .......... 37%  183M 27s
- 10450K .......... .......... .......... .......... .......... 37%  264M 27s
- 10500K .......... .......... .......... .......... .......... 37%  193M 27s
- 10550K .......... .......... .......... .......... .......... 37%  225M 27s
- 10600K .......... .......... .......... .......... .......... 37% 13.2M 26s
- 10650K .......... .......... .......... .......... .......... 38%  207M 26s
- 10700K .......... .......... .......... .......... .......... 38%  140M 26s
- 10750K .......... .......... .......... .......... .......... 38%  233M 26s
- 10800K .......... .......... .......... .......... .......... 38%  203M 26s
- 10850K .......... .......... .......... .......... .......... 38%  192M 25s
- 10900K .......... .......... .......... .......... .......... 39%  198M 25s
- 10950K .......... .......... .......... .......... .......... 39%  188M 25s
- 11000K .......... .......... .......... .......... .......... 39%  196M 25s
- 11050K .......... .......... .......... .......... .......... 39%  223M 25s
- 11100K .......... .......... .......... .......... .......... 39%  228M 24s
- 11150K .......... .......... .......... .......... .......... 39%  232M 24s
- 11200K .......... .......... .......... .......... .......... 40%  235M 24s
- 11250K .......... .......... .......... .......... .......... 40%  138K 24s
- 11300K .......... .......... .......... .......... .......... 40%  243M 24s
- 11350K .......... .......... .......... .......... .......... 40%  213M 24s
- 11400K .......... .......... .......... .......... .......... 40%  191M 24s
- 11450K .......... .......... .......... .......... .......... 41%  173M 24s
- 11500K .......... .......... .......... .......... .......... 41%  153M 24s
- 11550K .......... .......... .......... .......... .......... 41%  241M 23s
- 11600K .......... .......... .......... .......... .......... 41%  258M 23s
- 11650K .......... .......... .......... .......... .......... 41%  184M 23s
- 11700K .......... .......... .......... .......... .......... 41%  390M 23s
- 11750K .......... .......... .......... .......... .......... 42%  336M 23s
- 11800K .......... .......... .......... .......... .......... 42%  353M 23s
- 11850K .......... .......... .......... .......... .......... 42%  319M 22s
- 11900K .......... .......... .......... .......... .......... 42%  351M 22s
- 11950K .......... .......... .......... .......... .......... 42% 18.5M 22s
- 12000K .......... .......... .......... .......... .......... 42%  178M 22s
- 12050K .......... .......... .......... .......... .......... 43%  170M 22s
- 12100K .......... .......... .......... .......... .......... 43%  199M 22s
- 12150K .......... .......... .......... .......... .......... 43%  218M 21s
- 12200K .......... .......... .......... .......... .......... 43%  213M 21s
- 12250K .......... .......... .......... .......... .......... 43%  139K 22s
- 12300K .......... .......... .......... .......... .......... 44%  160M 21s
- 12350K .......... .......... .......... .......... .......... 44%  167M 21s
- 12400K .......... .......... .......... .......... .......... 44%  200M 21s
- 12450K .......... .......... .......... .......... .......... 44%  178M 21s
- 12500K .......... .......... .......... .......... .......... 44%  162M 21s
- 12550K .......... .......... .......... .......... .......... 44%  171M 21s
- 12600K .......... .......... .......... .......... .......... 45%  184M 20s
- 12650K .......... .......... .......... .......... .......... 45%  212M 20s
- 12700K .......... .......... .......... .......... .......... 45%  332M 20s
- 12750K .......... .......... .......... .......... .......... 45%  307M 20s
- 12800K .......... .......... .......... .......... .......... 45%  352M 20s
- 12850K .......... .......... .......... .......... .......... 45%  356M 20s
- 12900K .......... .......... .......... .......... .......... 46%  347M 20s
- 12950K .......... .......... .......... .......... .......... 46%  351M 19s
- 13000K .......... .......... .......... .......... .......... 46%  342M 19s
- 13050K .......... .......... .......... .......... .......... 46% 21.8M 19s
- 13100K .......... .......... .......... .......... .......... 46%  180M 19s
- 13150K .......... .......... .......... .......... .......... 47%  182M 19s
- 13200K .......... .......... .......... .......... .......... 47%  217M 19s
- 13250K .......... .......... .......... .......... .......... 47%  244M 19s
- 13300K .......... .......... .......... .......... .......... 47%  100K 19s
- 13350K .......... .......... .......... .......... .......... 47%  144M 19s
- 13400K .......... .......... .......... .......... .......... 47%  180M 19s
- 13450K .......... .......... .......... .......... .......... 48%  180M 19s
- 13500K .......... .......... .......... .......... .......... 48%  164M 19s
- 13550K .......... .......... .......... .......... .......... 48%  173M 18s
- 13600K .......... .......... .......... .......... .......... 48%  185M 18s
- 13650K .......... .......... .......... .......... .......... 48%  220M 18s
- 13700K .......... .......... .......... .......... .......... 49% 14.4M 18s
- 13750K .......... .......... .......... .......... .......... 49%  170M 18s
- 13800K .......... .......... .......... .......... .......... 49%  138M 18s
- 13850K .......... .......... .......... .......... .......... 49%  177M 18s
- 13900K .......... .......... .......... .......... .......... 49%  214M 18s
- 13950K .......... .......... .......... .......... .......... 49%  260M 17s
- 14000K .......... .......... .......... .......... .......... 50%  180M 17s
- 14050K .......... .......... .......... .......... .......... 50%  168M 17s
- 14100K .......... .......... .......... .......... .......... 50%  208M 17s
- 14150K .......... .......... .......... .......... .......... 50%  235M 17s
- 14200K .......... .......... .......... .......... .......... 50%  244M 17s
- 14250K .......... .......... .......... .......... .......... 50%  231M 17s
- 14300K .......... .......... .......... .......... .......... 51%  112K 17s
- 14350K .......... .......... .......... .......... .......... 51%  127M 17s
- 14400K .......... .......... .......... .......... .......... 51%  190M 17s
- 14450K .......... .......... .......... .......... .......... 51%  152M 17s
- 14500K .......... .......... .......... .......... .......... 51%  202M 17s
- 14550K .......... .......... .......... .......... .......... 52%  196M 16s
- 14600K .......... .......... .......... .......... .......... 52%  265M 16s
- 14650K .......... .......... .......... .......... .......... 52% 13.3M 16s
- 14700K .......... .......... .......... .......... .......... 52% 99.8M 16s
- 14750K .......... .......... .......... .......... .......... 52%  158M 16s
- 14800K .......... .......... .......... .......... .......... 52%  183M 16s
- 14850K .......... .......... .......... .......... .......... 53%  181M 16s
- 14900K .......... .......... .......... .......... .......... 53%  159M 16s
- 14950K .......... .......... .......... .......... .......... 53%  183M 15s
- 15000K .......... .......... .......... .......... .......... 53%  198M 15s
- 15050K .......... .......... .......... .......... .......... 53%  244M 15s
- 15100K .......... .......... .......... .......... .......... 54%  274M 15s
- 15150K .......... .......... .......... .......... .......... 54%  331M 15s
- 15200K .......... .......... .......... .......... .......... 54%  335M 15s
- 15250K .......... .......... .......... .......... .......... 54%  341M 15s
- 15300K .......... .......... .......... .......... .......... 54%  226M 15s
- 15350K .......... .......... .......... .......... .......... 54% 93.1K 15s
- 15400K .......... .......... .......... .......... .......... 55%  210M 15s
- 15450K .......... .......... .......... .......... .......... 55%  189M 15s
- 15500K .......... .......... .......... .......... .......... 55%  163M 15s
- 15550K .......... .......... .......... .......... .......... 55%  160M 15s
- 15600K .......... .......... .......... .......... .......... 55%  239M 15s
- 15650K .......... .......... .......... .......... .......... 55% 12.8M 14s
- 15700K .......... .......... .......... .......... .......... 56%  128M 14s
- 15750K .......... .......... .......... .......... .......... 56%  150M 14s
- 15800K .......... .......... .......... .......... .......... 56%  189M 14s
- 15850K .......... .......... .......... .......... .......... 56%  228M 14s
- 15900K .......... .......... .......... .......... .......... 56%  272M 14s
- 15950K .......... .......... .......... .......... .......... 57%  218M 14s
- 16000K .......... .......... .......... .......... .......... 57%  169M 14s
- 16050K .......... .......... .......... .......... .......... 57%  175M 14s
- 16100K .......... .......... .......... .......... .......... 57%  195M 14s
- 16150K .......... .......... .......... .......... .......... 57%  215M 13s
- 16200K .......... .......... .......... .......... .......... 57%  230M 13s
- 16250K .......... .......... .......... .......... .......... 58%  233M 13s
- 16300K .......... .......... .......... .......... .......... 58%  276M 13s
- 16350K .......... .......... .......... .......... .......... 58%  105K 13s
- 16400K .......... .......... .......... .......... .......... 58%  128M 13s
- 16450K .......... .......... .......... .......... .......... 58% 36.6M 13s
- 16500K .......... .......... .......... .......... .......... 59%  178M 13s
- 16550K .......... .......... .......... .......... .......... 59%  165M 13s
- 16600K .......... .......... .......... .......... .......... 59%  215M 13s
- 16650K .......... .......... .......... .......... .......... 59%  336M 13s
- 16700K .......... .......... .......... .......... .......... 59% 15.9M 13s
- 16750K .......... .......... .......... .......... .......... 59%  179M 13s
- 16800K .......... .......... .......... .......... .......... 60%  228M 13s
- 16850K .......... .......... .......... .......... .......... 60% 48.5M 12s
- 16900K .......... .......... .......... .......... .......... 60%  113M 12s
- 16950K .......... .......... .......... .......... .......... 60%  224M 12s
- 17000K .......... .......... .......... .......... .......... 60%  260M 12s
- 17050K .......... .......... .......... .......... .......... 60%  229M 12s
- 17100K .......... .......... .......... .......... .......... 61%  201M 12s
- 17150K .......... .......... .......... .......... .......... 61%  182M 12s
- 17200K .......... .......... .......... .......... .......... 61%  218M 12s
- 17250K .......... .......... .......... .......... .......... 61%  222M 12s
- 17300K .......... .......... .......... .......... .......... 61%  231M 12s
- 17350K .......... .......... .......... .......... .......... 62%  226M 12s
- 17400K .......... .......... .......... .......... .......... 62%  127K 12s
- 17450K .......... .......... .......... .......... .......... 62%  163M 12s
- 17500K .......... .......... .......... .......... .......... 62%  204M 12s
- 17550K .......... .......... .......... .......... .......... 62%  227M 11s
- 17600K .......... .......... .......... .......... .......... 62%  206M 11s
- 17650K .......... .......... .......... .......... .......... 63%  227M 11s
- 17700K .......... .......... .......... .......... .......... 63%  194M 11s
- 17750K .......... .......... .......... .......... .......... 63%  176M 11s
- 17800K .......... .......... .......... .......... .......... 63%  217M 11s
- 17850K .......... .......... .......... .......... .......... 63%  231M 11s
- 17900K .......... .......... .......... .......... .......... 64%  243M 11s
- 17950K .......... .......... .......... .......... .......... 64%  217M 11s
- 18000K .......... .......... .......... .......... .......... 64%  235M 11s
- 18050K .......... .......... .......... .......... .......... 64% 18.5M 11s
- 18100K .......... .......... .......... .......... .......... 64%  178M 10s
- 18150K .......... .......... .......... .......... .......... 64%  170M 10s
- 18200K .......... .......... .......... .......... .......... 65%  182M 10s
- 18250K .......... .......... .......... .......... .......... 65%  278M 10s
- 18300K .......... .......... .......... .......... .......... 65%  272M 10s
- 18350K .......... .......... .......... .......... .......... 65%  244M 10s
- 18400K .......... .......... .......... .......... .......... 65%  138K 10s
- 18450K .......... .......... .......... .......... .......... 65%  198M 10s
- 18500K .......... .......... .......... .......... .......... 66%  167M 10s
- 18550K .......... .......... .......... .......... .......... 66%  156M 10s
- 18600K .......... .......... .......... .......... .......... 66%  162M 10s
- 18650K .......... .......... .......... .......... .......... 66%  210M 10s
- 18700K .......... .......... .......... .......... .......... 66%  181M 10s
- 18750K .......... .......... .......... .......... .......... 67%  183M 10s
- 18800K .......... .......... .......... .......... .......... 67%  170M 10s
- 18850K .......... .......... .......... .......... .......... 67%  190M 9s
- 18900K .......... .......... .......... .......... .......... 67%  224M 9s
- 18950K .......... .......... .......... .......... .......... 67%  229M 9s
- 19000K .......... .......... .......... .......... .......... 67%  231M 9s
- 19050K .......... .......... .......... .......... .......... 68%  221M 9s
- 19100K .......... .......... .......... .......... .......... 68%  263M 9s
- 19150K .......... .......... .......... .......... .......... 68%  297M 9s
- 19200K .......... .......... .......... .......... .......... 68% 29.1M 9s
- 19250K .......... .......... .......... .......... .......... 68%  135M 9s
- 19300K .......... .......... .......... .......... .......... 68%  177M 9s
- 19350K .......... .......... .......... .......... .......... 69%  182M 9s
- 19400K .......... .......... .......... .......... .......... 69%  207M 9s
- 19450K .......... .......... .......... .......... .......... 69% 90.5K 9s
- 19500K .......... .......... .......... .......... .......... 69%  160M 9s
- 19550K .......... .......... .......... .......... .......... 69%  184M 9s
- 19600K .......... .......... .......... .......... .......... 70%  167M 9s
- 19650K .......... .......... .......... .......... .......... 70%  229M 9s
- 19700K .......... .......... .......... .......... .......... 70%  264M 8s
- 19750K .......... .......... .......... .......... .......... 70%  248M 8s
- 19800K .......... .......... .......... .......... .......... 70% 13.0M 8s
- 19850K .......... .......... .......... .......... .......... 70%  189M 8s
- 19900K .......... .......... .......... .......... .......... 71%  195M 8s
- 19950K .......... .......... .......... .......... .......... 71%  207M 8s
- 20000K .......... .......... .......... .......... .......... 71%  226M 8s
- 20050K .......... .......... .......... .......... .......... 71%  339M 8s
- 20100K .......... .......... .......... .......... .......... 71%  275M 8s
- 20150K .......... .......... .......... .......... .......... 72%  226M 8s
- 20200K .......... .......... .......... .......... .......... 72%  241M 8s
- 20250K .......... .......... .......... .......... .......... 72%  298M 8s
- 20300K .......... .......... .......... .......... .......... 72%  351M 8s
- 20350K .......... .......... .......... .......... .......... 72%  345M 8s
- 20400K .......... .......... .......... .......... .......... 72%  347M 7s
- 20450K .......... .......... .......... .......... .......... 73% 88.6K 8s
- 20500K .......... .......... .......... .......... .......... 73%  220M 8s
- 20550K .......... .......... .......... .......... .......... 73%  136M 7s
- 20600K .......... .......... .......... .......... .......... 73%  168M 7s
- 20650K .......... .......... .......... .......... .......... 73%  207M 7s
- 20700K .......... .......... .......... .......... .......... 73%  195M 7s
- 20750K .......... .......... .......... .......... .......... 74%  279M 7s
- 20800K .......... .......... .......... .......... .......... 74% 12.6M 7s
- 20850K .......... .......... .......... .......... .......... 74% 87.9M 7s
- 20900K .......... .......... .......... .......... .......... 74% 87.8M 7s
- 20950K .......... .......... .......... .......... .......... 74% 79.3M 7s
- 21000K .......... .......... .......... .......... .......... 75%  103M 7s
- 21050K .......... .......... .......... .......... .......... 75%  203M 7s
- 21100K .......... .......... .......... .......... .......... 75%  237M 7s
- 21150K .......... .......... .......... .......... .......... 75%  244M 7s
- 21200K .......... .......... .......... .......... .......... 75%  268M 7s
- 21250K .......... .......... .......... .......... .......... 75%  236M 7s
- 21300K .......... .......... .......... .......... .......... 76%  219M 7s
- 21350K .......... .......... .......... .......... .......... 76%  318M 6s
- 21400K .......... .......... .......... .......... .......... 76%  251M 6s
- 21450K .......... .......... .......... .......... .......... 76%  203M 6s
- 21500K .......... .......... .......... .......... .......... 76%  126K 6s
- 21550K .......... .......... .......... .......... .......... 77%  120M 6s
- 21600K .......... .......... .......... .......... .......... 77%  170M 6s
- 21650K .......... .......... .......... .......... .......... 77%  164M 6s
- 21700K .......... .......... .......... .......... .......... 77%  167M 6s
- 21750K .......... .......... .......... .......... .......... 77%  163M 6s
- 21800K .......... .......... .......... .......... .......... 77%  263M 6s
- 21850K .......... .......... .......... .......... .......... 78%  228M 6s
- 21900K .......... .......... .......... .......... .......... 78%  261M 6s
- 21950K .......... .......... .......... .......... .......... 78%  226M 6s
- 22000K .......... .......... .......... .......... .......... 78%  234M 6s
- 22050K .......... .......... .......... .......... .......... 78%  238M 6s
- 22100K .......... .......... .......... .......... .......... 78%  205M 6s
- 22150K .......... .......... .......... .......... .......... 79% 24.0M 6s
- 22200K .......... .......... .......... .......... .......... 79%  185M 6s
- 22250K .......... .......... .......... .......... .......... 79%  175M 5s
- 22300K .......... .......... .......... .......... .......... 79%  167M 5s
- 22350K .......... .......... .......... .......... .......... 79%  223M 5s
- 22400K .......... .......... .......... .......... .......... 80%  337M 5s
- 22450K .......... .......... .......... .......... .......... 80%  451M 5s
- 22500K .......... .......... .......... .......... .......... 80%  136K 5s
- 22550K .......... .......... .......... .......... .......... 80%  162M 5s
- 22600K .......... .......... .......... .......... .......... 80%  197M 5s
- 22650K .......... .......... .......... .......... .......... 80%  163M 5s
- 22700K .......... .......... .......... .......... .......... 81%  182M 5s
- 22750K .......... .......... .......... .......... .......... 81%  203M 5s
- 22800K .......... .......... .......... .......... .......... 81%  190M 5s
- 22850K .......... .......... .......... .......... .......... 81%  171M 5s
- 22900K .......... .......... .......... .......... .......... 81%  243M 5s
- 22950K .......... .......... .......... .......... .......... 82%  225M 5s
- 23000K .......... .......... .......... .......... .......... 82%  251M 5s
- 23050K .......... .......... .......... .......... .......... 82%  221M 5s
- 23100K .......... .......... .......... .......... .......... 82%  276M 5s
- 23150K .......... .......... .......... .......... .......... 82%  289M 4s
- 23200K .......... .......... .......... .......... .......... 82%  303M 4s
- 23250K .......... .......... .......... .......... .......... 83%  302M 4s
- 23300K .......... .......... .......... .......... .......... 83% 25.3M 4s
- 23350K .......... .......... .......... .......... .......... 83%  117M 4s
- 23400K .......... .......... .......... .......... .......... 83%  181M 4s
- 23450K .......... .......... .......... .......... .......... 83%  213M 4s
- 23500K .......... .......... .......... .......... .......... 83%  245M 4s
- 23550K .......... .......... .......... .......... .......... 84%  138K 4s
- 23600K .......... .......... .......... .......... .......... 84%  192M 4s
- 23650K .......... .......... .......... .......... .......... 84%  178M 4s
- 23700K .......... .......... .......... .......... .......... 84%  156M 4s
- 23750K .......... .......... .......... .......... .......... 84%  207M 4s
- 23800K .......... .......... .......... .......... .......... 85%  216M 4s
- 23850K .......... .......... .......... .......... .......... 85%  207M 4s
- 23900K .......... .......... .......... .......... .......... 85%  179M 4s
- 23950K .......... .......... .......... .......... .......... 85%  198M 4s
- 24000K .......... .......... .......... .......... .......... 85%  285M 4s
- 24050K .......... .......... .......... .......... .......... 85%  260M 4s
- 24100K .......... .......... .......... .......... .......... 86%  261M 4s
- 24150K .......... .......... .......... .......... .......... 86%  222M 3s
- 24200K .......... .......... .......... .......... .......... 86%  245M 3s
- 24250K .......... .......... .......... .......... .......... 86%  237M 3s
- 24300K .......... .......... .......... .......... .......... 86%  247M 3s
- 24350K .......... .......... .......... .......... .......... 87% 25.4M 3s
- 24400K .......... .......... .......... .......... .......... 87%  186M 3s
- 24450K .......... .......... .......... .......... .......... 87%  179M 3s
- 24500K .......... .......... .......... .......... .......... 87%  192M 3s
- 24550K .......... .......... .......... .......... .......... 87%  137K 3s
- 24600K .......... .......... .......... .......... .......... 87%  189M 3s
- 24650K .......... .......... .......... .......... .......... 88%  181M 3s
- 24700K .......... .......... .......... .......... .......... 88%  155M 3s
- 24750K .......... .......... .......... .......... .......... 88%  203M 3s
- 24800K .......... .......... .......... .......... .......... 88%  200M 3s
- 24850K .......... .......... .......... .......... .......... 88%  238M 3s
- 24900K .......... .......... .......... .......... .......... 88%  229M 3s
- 24950K .......... .......... .......... .......... .......... 89%  196M 3s
- 25000K .......... .......... .......... .......... .......... 89%  197M 3s
- 25050K .......... .......... .......... .......... .......... 89%  217M 3s
- 25100K .......... .......... .......... .......... .......... 89%  237M 3s
- 25150K .......... .......... .......... .......... .......... 89%  208M 3s
- 25200K .......... .......... .......... .......... .......... 90%  219M 2s
- 25250K .......... .......... .......... .......... .......... 90%  223M 2s
- 25300K .......... .......... .......... .......... .......... 90%  235M 2s
- 25350K .......... .......... .......... .......... .......... 90% 27.7M 2s
- 25400K .......... .......... .......... .......... .......... 90%  109M 2s
- 25450K .......... .......... .......... .......... .......... 90%  134M 2s
- 25500K .......... .......... .......... .......... .......... 91%  232M 2s
- 25550K .......... .......... .......... .......... .......... 91%  241M 2s
- 25600K .......... .......... .......... .......... .......... 91%  138K 2s
- 25650K .......... .......... .......... .......... .......... 91% 88.2M 2s
- 25700K .......... .......... .......... .......... .......... 91% 94.6M 2s
- 25750K .......... .......... .......... .......... .......... 91% 99.7M 2s
- 25800K .......... .......... .......... .......... .......... 92%  138M 2s
- 25850K .......... .......... .......... .......... .......... 92%  187M 2s
- 25900K .......... .......... .......... .......... .......... 92%  207M 2s
- 25950K .......... .......... .......... .......... .......... 92%  230M 2s
- 26000K .......... .......... .......... .......... .......... 92%  237M 2s
- 26050K .......... .......... .......... .......... .......... 93%  234M 2s
- 26100K .......... .......... .......... .......... .......... 93%  246M 2s
- 26150K .......... .......... .......... .......... .......... 93%  209M 2s
- 26200K .......... .......... .......... .......... .......... 93%  269M 2s
- 26250K .......... .......... .......... .......... .......... 93%  306M 2s
- 26300K .......... .......... .......... .......... .......... 93%  237M 1s
- 26350K .......... .......... .......... .......... .......... 94%  243M 1s
- 26400K .......... .......... .......... .......... .......... 94% 47.2M 1s
- 26450K .......... .......... .......... .......... .......... 94%  128M 1s
- 26500K .......... .......... .......... .......... .......... 94%  174M 1s
- 26550K .......... .......... .......... .......... .......... 94%  244M 1s
- 26600K .......... .......... .......... .......... .......... 95%  138K 1s
- 26650K .......... .......... .......... .......... .......... 95%  128M 1s
- 26700K .......... .......... .......... .......... .......... 95%  230M 1s
- 26750K .......... .......... .......... .......... .......... 95%  194M 1s
- 26800K .......... .......... .......... .......... .......... 95%  239M 1s
- 26850K .......... .......... .......... .......... .......... 95%  243M 1s
- 26900K .......... .......... .......... .......... .......... 96%  233M 1s
- 26950K .......... .......... .......... .......... .......... 96%  205M 1s
- 27000K .......... .......... .......... .......... .......... 96%  186M 1s
- 27050K .......... .......... .......... .......... .......... 96%  208M 1s
- 27100K .......... .......... .......... .......... .......... 96%  259M 1s
- 27150K .......... .......... .......... .......... .......... 96%  286M 1s
- 27200K .......... .......... .......... .......... .......... 97%  218M 1s
- 27250K .......... .......... .......... .......... .......... 97%  230M 1s
- 27300K .......... .......... .......... .......... .......... 97%  232M 1s
- 27350K .......... .......... .......... .......... .......... 97%  231M 1s
- 27400K .......... .......... .......... .......... .......... 97% 26.5M 0s
- 27450K .......... .......... .......... .......... .......... 98%  136M 0s
- 27500K .......... .......... .......... .......... .......... 98%  191M 0s
- 27550K .......... .......... .......... .......... .......... 98%  124M 0s
- 27600K .......... .......... .......... .......... .......... 98%  107K 0s
- 27650K .......... .......... .......... .......... .......... 98%  139M 0s
- 27700K .......... .......... .......... .......... .......... 98%  139M 0s
- 27750K .......... .......... .......... .......... .......... 99%  175M 0s
- 27800K .......... .......... .......... .......... .......... 99%  172M 0s
- 27850K .......... .......... .......... .......... .......... 99%  236M 0s
- 27900K .......... .......... .......... .......... .......... 99%  131M 0s
- 27950K .......... .......... .......... .......... .......... 99%  234M 0s
- 28000K .......... .......... .......... .......... .....     100%  336M=23s
-
-2026-05-14 04:09:29 (1.17 MB/s) - ‘downloads/general/audio/vaisi/vaisi14050224.mp3’ saved [28718910/28718910]
-
-OK: General download succeeded: https://ne6-00ce353197c4.herokuapp.com/stream/2200217?hash=0f9e08&d=true
-=======================
-
-=== Processing block ===
-URL: https://ne6-00ce353197c4.herokuapp.com/stream/2200315?hash=2f05ae&d=true
-Filename: capitolReport14050223_2.mp3
-Path: audio/capitolReport/
-Downloading with fallback chain...
-Trying aria2c...
-
-05/14 04:09:29 [[1;32mNOTICE[0m] Downloading 1 item(s)
-[#002ab8 0B/0B CN:1 DL:0B]
-[#002ab8 0B/0B CN:1 DL:0B]
-[#002ab8 13MiB/19MiB(65%) CN:9 DL:13MiB]
-[#002ab8 17MiB/19MiB(89%) CN:2 DL:7.6MiB]
-[#002ab8 17MiB/19MiB(89%) CN:2 DL:5.3MiB]
-[#002ab8 18MiB/19MiB(94%) CN:1 DL:3.8MiB]
-[#002ab8 18MiB/19MiB(94%) CN:1 DL:3.1MiB]
-[#002ab8 18MiB/19MiB(94%) CN:1 DL:2.7MiB]
-
-05/14 04:09:39 [[1;32mNOTICE[0m] Download complete: downloads/general/audio/capitolReport/capitolReport14050223_2.mp3
-
-Download Results:
-gid   |stat|avg speed  |path/URI
-======+====+===========+=======================================================
-002ab8|OK  |   2.5MiB/s|downloads/general/audio/capitolReport/capitolReport14050223_2.mp3
-
-Status Legend:
-(OK):download completed.
-OK: General download succeeded: https://ne6-00ce353197c4.herokuapp.com/stream/2200315?hash=2f05ae&d=true
-=======================
-
-=== Processing block ===
-URL: https://ne6-00ce353197c4.herokuapp.com/stream/2200249?hash=e3b6a0&d=true
-Filename: dailyReport14050223.mp4
-Path: dailyReports/
-Downloading with fallback chain...
-Trying aria2c...
-
-05/14 04:09:39 [[1;32mNOTICE[0m] Downloading 1 item(s)
-[#04224f 9.0MiB/39MiB(22%) CN:16 DL:13MiB ETA:2s]
-[#04224f 32MiB/39MiB(82%) CN:11 DL:18MiB]
-[#04224f 38MiB/39MiB(97%) CN:2 DL:10MiB]
-
-05/14 04:09:44 [[1;32mNOTICE[0m] Download complete: downloads/general/dailyReports/dailyReport14050223.mp4
-
-Download Results:
-gid   |stat|avg speed  |path/URI
-======+====+===========+=======================================================
-04224f|OK  |    10MiB/s|downloads/general/dailyReports/dailyReport14050223.mp4
-
-Status Legend:
-(OK):download completed.
-OK: General download succeeded: https://ne6-00ce353197c4.herokuapp.com/stream/2200249?hash=e3b6a0&d=true
-=======================
-
-=== Download summary ===
-Requested: 4
-Succeeded: 3
-Failed: 1
-Log file: downloads/logs/20260514040125.txt

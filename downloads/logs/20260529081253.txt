@@ -1,8 +1,0 @@
-=== Parsing commit message ===
-testing new telegram download
-
-download:
-https://t.me/mvaisipodcasts/3488 | podcast_video.mp4
-path: test/
-==============================
-OK: Telegram download succeeded
