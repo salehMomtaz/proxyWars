@@ -7,7 +7,3 @@ We are now facing of the worst internet shutdowns in the history of digital worl
 Silence of europe will be remembered for ever. They will pay for this. Leftism already ruined them from within.
 
 May god help us.
-
-Deus Vult
-
-Sapere aude
